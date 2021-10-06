@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "607959222714",
+    "project_id": "book-token-dev",
+    "storage_bucket": "book-token-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607959222714:android:a177bbcc8dd13bde8d3583",
+        "android_client_info": {
+          "package_name": "com.example.booktokenapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607959222714-sqqotrrsdmlr3r91idogfbu97gm0r0ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4gXLRzcEUudQSpKPIUYtBaH-c0O7DJ3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607959222714-sqqotrrsdmlr3r91idogfbu97gm0r0ug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
