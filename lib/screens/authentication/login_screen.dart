@@ -1,6 +1,11 @@
+import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/screens/authentication/otp_screens/otp_verification.dart';
+import 'package:booktokenapp/screens/authentication/registration_screen.dart';
 import 'package:booktokenapp/service/firebase_services/auth_service.dart';
+import 'package:booktokenapp/service/firebase_services/firebase_service.dart';
 import 'package:booktokenapp/utils/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -22,52 +27,63 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+
+  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: Image.network(
-                          'https://image.shutterstock.com/shutterstock/photos/1532267915/display_1500/stock-vector-mobile-otp-secure-verification-method-1532267915.jpg')),
-                  Text('OTP Verifivation'),
-                  Text(
-                    'we will send you one time password on this mobile number',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Enter Mobile Number',
-                    textAlign: TextAlign.center,
-                  ),
-                  Form(
-                    child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        key: _formKey,
-                        onChanged: (value) {
-                          setState(() {
-                            number = value;
-                          });
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(width: double.infinity, height: MediaQuery.of(context).size.height * 0.7, color: Colors.blueAccent),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Lets get you verified!'),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OtpVerification()));
                         },
-                        validator: (value) => validateMobile(value)),
-                  ),
-                  MaterialButton(
-                      child: Text('press'),
-                      onPressed: () {
-                        // onSaved();
-                        if(number != null){
-
-                        Firebase_Auth_Service().sendOtp(number!);
-                        }
-                      })
-                ],
-              ),
+                        child: Form(
+                          child: Row(
+                            children: [
+                              Icon(Icons.flag),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('+91'),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: TextFormField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                    hintText: 'Mobile Number',
+                                    disabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 1, color: Colors.blue), borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

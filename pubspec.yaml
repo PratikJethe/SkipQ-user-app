@@ -38,6 +38,10 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_messaging: ^10.0.7
   firebase_auth: ^3.1.1
+  fluttertoast: ^8.0.8
+  pin_code_fields: ^7.3.0
+  flutter_google_places: ^0.3.0
+  google_maps_webservice: ^0.0.19
 
 
 dev_dependencies:

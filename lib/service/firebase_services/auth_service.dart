@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Firebase_Auth_Service {
+class FirebaseAuthService {
   FirebaseAuth firebaseInstance = FirebaseAuth.instance;
 
-  sendOtp(String phoneNumber) {
+  sendOtp(String phoneNumber,String dialCode) {
     firebaseInstance.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
+        phoneNumber:'+$dialCode$phoneNumber',
         verificationCompleted: (phoneAuthCredential) {
           print(phoneAuthCredential);
         },

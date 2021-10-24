@@ -1,4 +1,5 @@
 import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/screens/authentication/registration_screen.dart';
 import 'package:booktokenapp/service/initialize_app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,25 +44,24 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (context, userProvider, _) {
           if (userProvider.triedFetchingUser) {}
 
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Book Token',
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 60, fontWeight: FontWeight.w700),
+          return !initializeError
+              ?
+              // RegistrationScreen(uid: 'djdjdj', mobileNumber: 9090909090)
+              
+               Scaffold(
+                  body: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Book Token',
+                          style: TextStyle(color: Colors.blueAccent, fontSize: 60, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
                   ),
-                  MaterialButton(
-                      child: Text('press'),
-                      onPressed: () {
-                        // userProvider.phoneLogin(9137837337, context);
-                      })
-                  // CircularProgressIndicator()
-                ],
-              ),
-            ),
-          );
+                )
+              : Text('something went wrong'); // TODO create proper error code
         },
       ),
     );
