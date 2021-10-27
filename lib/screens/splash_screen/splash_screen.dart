@@ -42,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
     return SafeArea(
       child: Consumer<UserProvider>(
         builder: (context, userProvider, _) {
-          if (userProvider.triedFetchingUser) {}
 
           return !initializeError
               ?

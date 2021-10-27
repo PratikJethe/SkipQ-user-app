@@ -15,7 +15,6 @@ class UserProvider extends ChangeNotifier {
   late User user;
   ApiService _apiService = getIt.get<ApiService>();
   bool isAuthenticated = false;
-  bool triedFetchingUser = false;
 
   Future getUser(BuildContext context) async {
     List<Cookie> cookiesList = await _apiService.getCookies();
@@ -27,7 +26,6 @@ class UserProvider extends ChangeNotifier {
     if (!response.error) {
       user = User.fromJson(response.data);
       isAuthenticated = true;
-      triedFetchingUser = true;
       print(user.toJson().toString());
       notifyListeners();
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -44,18 +42,14 @@ class UserProvider extends ChangeNotifier {
     if (!response.error) {
       user = User.fromJson(response.data);
       isAuthenticated = true;
-      triedFetchingUser = true;
       print(user.toJson().toString());
       notifyListeners();
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (Route<dynamic> route) => false);
     } else {
       print(response);
       if (response.statusCode == 404) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => RegistrationScreen(
-                  uid: payload["uid"],
-                  mobileNumber: payload["phoneNo"],
-                )));
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => RegistrationScreen(uid: payload["uid"], mobileNumber: payload["phoneNo"])));
         return;
       }
       Fluttertoast.showToast(
@@ -71,7 +65,6 @@ class UserProvider extends ChangeNotifier {
     if (!response.error) {
       user = User.fromJson(response.data);
       isAuthenticated = true;
-      triedFetchingUser = true;
       print(user.toJson().toString());
       notifyListeners();
       print(user.toString());
@@ -81,5 +74,15 @@ class UserProvider extends ChangeNotifier {
       Fluttertoast.showToast(
           msg: "${response.errMsg}", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
     }
+  }
+
+  Future logout(BuildContext context) async {
+    _apiService.clearCookies().then((value) {
+      isAuthenticated = false;
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (Route<dynamic> route) => false);
+    }).catchError((error) {
+      Fluttertoast.showToast(
+          msg: "Failed to logout", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
+    });
   }
 }

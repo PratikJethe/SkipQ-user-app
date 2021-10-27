@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:booktokenapp/constants/api_constant.dart';
@@ -22,6 +23,11 @@ class ApiService {
     var path = appDoc.path;
     CookieJar cookieJar = PersistCookieJar(storage: FileStorage(path + '/.cookies/'));
     return cookieJar;
+  }
+
+  Future<void> clearCookies() async {
+    var cookieJar = await getCookieJar();
+    return await cookieJar.deleteAll();
   }
 
   Future<List<Cookie>> getCookies() async {

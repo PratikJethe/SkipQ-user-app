@@ -1,4 +1,6 @@
+import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +14,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('BookTokenUser')),
-      body: Container(child: Text('HomePage'),),
+      body: Consumer<UserProvider>(builder: (context, userProvider, _) {
+        return Container(
+          child: Center(
+              child: TextButton(
+            child: Text('HomePage'),
+            onPressed: () {
+              userProvider.logout(context);
+            },
+          )),
+        );
+      }),
     );
   }
 }
