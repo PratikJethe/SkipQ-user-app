@@ -1,11 +1,6 @@
-import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/authentication/otp_screens/otp_verification.dart';
-import 'package:booktokenapp/screens/authentication/registration_screen.dart';
-import 'package:booktokenapp/service/firebase_services/auth_service.dart';
-import 'package:booktokenapp/service/firebase_services/firebase_service.dart';
-import 'package:booktokenapp/utils/validators.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -27,64 +22,78 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-  
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: R.color.primary,
         body: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(width: double.infinity, height: MediaQuery.of(context).size.height * 0.7, color: Colors.blueAccent),
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Lets get you verified!'),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OtpVerification()));
-                        },
-                        child: Form(
-                          child: Row(
-                            children: [
-                              Icon(Icons.flag),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text('+91'),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: TextFormField(
-                                  enabled: false,
-                                  decoration: InputDecoration(
-                                    hintText: 'Mobile Number',
-                                    disabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 1, color: Colors.blue), borderRadius: BorderRadius.circular(10)),
-                                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(width: double.infinity, height: MediaQuery.of(context).size.height * 0.65),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        child: Text('Lets get you verified, enter your mobile number', style: R.styles.fz18Fw500),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        height: 50,
+                        decoration: BoxDecoration(border: Border.all(color: R.color.black),borderRadius: BorderRadius.circular(5)),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => OtpVerification()));
+                          },
+                          child: AbsorbPointer(
+                            child:Row(
+                              children: [
+                                SizedBox(
+                                  width: 10,
                                 ),
-                              )
-                            ],
+                                Text(
+                                  '+91',
+                                  style: R.styles.fz20Fw500,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 1,
+                                  color: R.color.black,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

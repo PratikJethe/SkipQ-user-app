@@ -1,3 +1,4 @@
+import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/screens/splash_screen/splash_screen.dart';
 import 'package:booktokenapp/service/api_service.dart';
@@ -23,10 +24,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+        providers: [
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => ClinicProvider()),
+        ],
         child: MaterialApp(
           title: 'BookToken',
           theme: ThemeData(
+            fontFamily: 'Lato',
             primarySwatch: Colors.blue,
           ),
           home: SplashScreen(),

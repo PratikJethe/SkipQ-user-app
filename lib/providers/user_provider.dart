@@ -9,7 +9,9 @@ import 'package:booktokenapp/screens/homepage/homepage.dart';
 import 'package:booktokenapp/service/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 
 class UserProvider extends ChangeNotifier {
   late User user;
@@ -28,7 +30,7 @@ class UserProvider extends ChangeNotifier {
       isAuthenticated = true;
       print(user.toJson().toString());
       notifyListeners();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage()), (Route<dynamic> route) => false);
     } else {
       print(response);
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (Route<dynamic> route) => false);
@@ -36,6 +38,20 @@ class UserProvider extends ChangeNotifier {
   }
 
   phoneLogin(Map<String, dynamic> payload, BuildContext context) async {
+    // try {
+    //   var response = AllInOneSdk.startTransaction('OdCdmt83472104874643', 'ORDER_ID_1636287501923', '1.00',
+    //       '6d7feb419c1e4162853eca6d6686c7661636287500177', "https://webhook.site/64c2017e-201c-46b0-a886-51812a4622fe", true, true);
+    //   response.then((value) {
+    //     print(value);
+    //   }).catchError((onError) {
+    //     if (onError is PlatformException) {
+    //       print(onError);
+    //     } else {}
+    //   });
+    // } catch (err) {
+    //   print(err);
+    // }
+
     var response = await _apiService.post('/user/auth/phone-login', payload);
 
     print(response.errMsg);

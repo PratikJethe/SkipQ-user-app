@@ -14,10 +14,17 @@ class FailedResponse {
 }
 
 class ApiResponse {
-   bool error;
-   int statusCode;
-   String errMsg;
-   dynamic data;
- 
+  bool error;
+  int statusCode;
+  String errMsg;
+  dynamic data;
+
   ApiResponse(this.statusCode, this.data, this.errMsg, this.error);
+}
+
+class ServiceResponse {
+  ApiResponse apiResponse;
+  dynamic data;
+
+  ServiceResponse(this.apiResponse, {this.data});
 }

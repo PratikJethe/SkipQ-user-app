@@ -1,4 +1,8 @@
 import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/screens/homepage/widgets/bottom_navigation_bar.dart';
+import 'package:booktokenapp/screens/homepage/widgets/homepage_widget.dart';
+import 'package:booktokenapp/screens/search/search_screen.dart';
+import 'package:booktokenapp/widgets/search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,21 +14,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+
+  onTap(index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('BookTokenUser')),
-      body: Consumer<UserProvider>(builder: (context, userProvider, _) {
-        return Container(
-          child: Center(
-              child: TextButton(
-            child: Text('HomePage'),
-            onPressed: () {
-              userProvider.logout(context);
-            },
-          )),
-        );
-      }),
+      bottomNavigationBar: bottomNavigationBar(currentIndex, onTap),
+      body: SafeArea(
+        child: Consumer<UserProvider>(builder: (context, userProvider, _) {
+          if (currentIndex == 0) {
+            return HomePageWidget(
+              currentIndex: currentIndex,
+              changeCurrentIndex: onTap,
+            );
+          } else if (currentIndex == 1) {
+            return SearchScreen(currentIndex: currentIndex, changeCurrentIndex: onTap);
+          } else if (currentIndex == 2) {
+            return Container(
+              child: Text('3'),
+            );
+          } else {
+            return Container(
+              child: Text('4'),
+            );
+          }
+        }),
+      ),
     );
   }
 }

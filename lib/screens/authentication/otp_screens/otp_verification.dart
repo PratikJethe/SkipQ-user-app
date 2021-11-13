@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:booktokenapp/main.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/service/firebase_services/auth_service.dart';
 import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
 import 'package:booktokenapp/utils/validators.dart';
@@ -122,46 +123,93 @@ class _OtpVerificationState extends State<OtpVerification> {
         builder: (context, userProvider, _) => Form(
           key: _formKey,
           child: !codeSent
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.flag),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text('+91'),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: TextFormField(
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: InputDecoration(
-                                hintText: 'Mobile Number',
-                                disabledBorder:
-                                    OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.blue), borderRadius: BorderRadius.circular(10)),
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(width: MediaQuery.of(context).size.width * 0.85, child: Text('Enter your mobile number', style: R.styles.fz20Fw500)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            // height: 50,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: TextFormField(
+                                autofocus: true,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
+                                  prefixIconConstraints: BoxConstraints(minHeight: 30, maxWidth: 40, maxHeight: 30),
+                                  prefixIcon: Container(
+                                      margin: EdgeInsets.only(right: 8),
+                                      decoration: BoxDecoration(
+                                        border: Border(right: BorderSide(color: R.color.black)),
+                                      ),
+                                      child: Center(child: Text('+91'))),
+                                  hintText: 'Mobile Number',
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1, color: Colors.red),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1, color: Colors.red),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    phoneNo = value.trim();
+                                  });
+                                },
+                                validator: validateMobile),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Text('By proceeding, you agree to our', style: R.styles.fz14FontColorGrey),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: Text('Terms & Conditions', style: R.styles.fz16FontColorPrimary),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              sendOtp(phoneNo!, '91', forceResendToken);
+                            }
+                          },
+                          child: Container(
+                            color: _formKey.currentState != null && _formKey.currentState!.validate() ? R.color.primary : Colors.grey,
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Send OTP',
+                                style: TextStyle(color: Colors.white, fontSize: 16),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  phoneNo = value.trim();
-                                });
-                              },
-                              validator: validateMobile),
-                        )
-                      ],
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          sendOtp(phoneNo!, '91', forceResendToken);
-                        }
-                      },
-                      child: Text('Sent otp'),
-                    )
-                  ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               : Center(
                   child: Container(
@@ -170,7 +218,11 @@ class _OtpVerificationState extends State<OtpVerification> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Otp has been sent to +${91} ${phoneNo}'),
+                        RichText(
+                            text: TextSpan(children: [
+                          TextSpan(text: 'OTP sent to ', style: R.styles.fz16FontColorBlack.merge(R.styles.fw500)),
+                          TextSpan(text: '+${91} ${phoneNo}', style: R.styles.fz16FontColorPrimaryL1.merge(R.styles.fw500)),
+                        ])),
                         SizedBox(
                           height: 20,
                         ),
@@ -239,16 +291,29 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 }
                               }
                             },
-                            child: Text('Sumbit Otp'),
+                            child: Container(
+                              color: _formKey.currentState != null && _formKey.currentState!.validate() ? R.color.primary : Colors.grey,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  'Submit OTP',
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         Row(
                           children: [
-                            Text('Havent received otp yet?'),
+                            Text(
+                              'Havent received otp yet?',
+                              style: R.styles.fz14Fw500,
+                            ),
                             TextButton(
                               child: Text(
                                 'Resend Otp',
-                                style: TextStyle(color: _resendOtpTime == 0 ? Colors.blue : Colors.grey),
+                                style: TextStyle(color: _resendOtpTime == 0 ? R.color.primary : Colors.grey).merge(R.styles.fz16Fw700),
                               ),
                               onPressed: () {
                                 if (_resendOtpTime == 0) {
