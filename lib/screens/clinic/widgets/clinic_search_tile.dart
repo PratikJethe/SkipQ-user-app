@@ -6,7 +6,8 @@ import 'package:flutter/widgets.dart';
 
 class ClinicSearchTile extends StatelessWidget {
   final Clinic clinic;
-  const ClinicSearchTile({Key? key, required this.clinic}) : super(key: key);
+  final double? horizontalMargin;
+  const ClinicSearchTile({Key? key, required this.clinic, this.horizontalMargin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ClinicSearchTile extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         shadowColor: Color.fromRGBO(112, 144, 176, 0.15),
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: horizontalMargin ?? 10),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: IntrinsicHeight(
@@ -82,7 +83,7 @@ class ClinicSearchTile extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     )),
-                                  if (clinic.address.pincode != 0)
+                                  if (clinic.address.pincode !=null)
                                     Container(
                                         child: Text(
                                       clinic.address.pincode.toString(),

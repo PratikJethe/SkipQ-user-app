@@ -1,6 +1,9 @@
 import 'package:booktokenapp/constants/globals.dart';
+import 'package:booktokenapp/models/api_response_model.dart';
 import 'package:booktokenapp/models/general_model/contact_model.dart';
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_address_model.dart';
+import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:booktokenapp/service/clinic/clinic_service.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -34,6 +37,10 @@ class Clinic extends ChangeNotifier {
 
   @JsonKey(ignore: true)
   bool isLoadingTokens = false;
+  @JsonKey(ignore: true)
+  List<ClinicToken> clinicPendingTokenList = [];
+
+  ClinicService _clinicService = ClinicService();
 
   Clinic({
     required this.id,
@@ -64,6 +71,38 @@ class Clinic extends ChangeNotifier {
 // PROVIDER LOGIC
   set setisTokenLoading(bool value) {
     isLoadingTokens = value;
+    notifyListeners();
   }
 
+  getPendingTokens() async {
+    clinicPendingTokenList.clear();
+    setisTokenLoading = true;
+    ServiceResponse serviceResponse = await _clinicService.getPendingToken(id);
+    setisTokenLoading = false;
+
+    print(serviceResponse.data);
+    if (serviceResponse.apiResponse.error) {
+      isLoadingTokens = false;
+      return;
+    }
+    clinicPendingTokenList.addAll(serviceResponse.data);
+  }
+
+  Future<ServiceResponse> requestToken() async {
+    ServiceResponse serviceResponse = await _clinicService.requestToken(id);
+
+    return serviceResponse;
+  }
+
+  Future<ServiceResponse> cancelRequest(String tokenId) async {
+    ServiceResponse serviceResponse = await _clinicService.cancelRequest(tokenId);
+
+    return serviceResponse;
+  }
+
+  Future<ServiceResponse> cancelToken(String tokenId) async {
+    ServiceResponse serviceResponse = await _clinicService.cancelToken(tokenId);
+
+    return serviceResponse;
+  }
 }

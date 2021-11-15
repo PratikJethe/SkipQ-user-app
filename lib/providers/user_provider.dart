@@ -17,6 +17,14 @@ class UserProvider extends ChangeNotifier {
   late User user;
   ApiService _apiService = getIt.get<ApiService>();
   bool isAuthenticated = false;
+  int bottomNavIndex = 0;
+
+  set setBottomNavIndex(index) {
+    if (bottomNavIndex != index) {
+      bottomNavIndex = index;
+      notifyListeners();
+    }
+  }
 
   Future getUser(BuildContext context) async {
     List<Cookie> cookiesList = await _apiService.getCookies();

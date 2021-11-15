@@ -1,6 +1,7 @@
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/screens/homepage/widgets/bottom_navigation_bar.dart';
 import 'package:booktokenapp/screens/homepage/widgets/homepage_widget.dart';
+import 'package:booktokenapp/screens/my_tokens/clinic_user_tokens.dart';
 import 'package:booktokenapp/screens/search/search_screen.dart';
 import 'package:booktokenapp/widgets/search_appbar.dart';
 import 'package:flutter/material.dart';
@@ -14,31 +15,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
-
-  onTap(index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: bottomNavigationBar(currentIndex, onTap),
+      bottomNavigationBar: bottomNavigationBar(context),
       body: SafeArea(
         child: Consumer<UserProvider>(builder: (context, userProvider, _) {
+          int currentIndex = userProvider.bottomNavIndex;
           if (currentIndex == 0) {
-            return HomePageWidget(
-              currentIndex: currentIndex,
-              changeCurrentIndex: onTap,
-            );
+            return HomePageWidget();
           } else if (currentIndex == 1) {
-            return SearchScreen(currentIndex: currentIndex, changeCurrentIndex: onTap);
+            return SearchScreen();
           } else if (currentIndex == 2) {
-            return Container(
-              child: Text('3'),
-            );
+            return ClinicUserToken(showAppbar: true);
           } else {
             return Container(
               child: Text('4'),

@@ -4,9 +4,9 @@ import 'package:booktokenapp/screens/clinic/widgets/tab_views/token_view.dart';
 import 'package:flutter/material.dart';
 
 class ClinicTabView extends StatefulWidget {
-    final Clinic clinic;
+  final Clinic clinic;
 
-  const ClinicTabView({Key? key,required this.clinic}) : super(key: key);
+  const ClinicTabView({Key? key, required this.clinic}) : super(key: key);
 
   @override
   _ClinicTabViewState createState() => _ClinicTabViewState();
@@ -15,8 +15,7 @@ class ClinicTabView extends StatefulWidget {
 class _ClinicTabViewState extends State<ClinicTabView> with TickerProviderStateMixin {
   late TabController _tabController;
 
-    late Clinic clinic;
-
+  late Clinic clinic;
 
   @override
   void initState() {
@@ -29,11 +28,12 @@ class _ClinicTabViewState extends State<ClinicTabView> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       elevation: 25,
       shadowColor: Color.fromRGBO(112, 144, 176, 0.70),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.95,
+        width: MediaQuery.of(context).size.width * 1,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -61,7 +61,9 @@ class _ClinicTabViewState extends State<ClinicTabView> with TickerProviderStateM
               child: Container(
                 //Add this to give height
                 child: TabBarView(controller: _tabController, children: [
-            ClinicTokenView(clinic: clinic,),
+                  ClinicTokenView(
+                    clinic: clinic,
+                  ),
                   Container(
                     child: Text("Articles Body"),
                   ),
