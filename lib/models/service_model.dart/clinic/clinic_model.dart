@@ -4,6 +4,8 @@ import 'package:booktokenapp/models/general_model/contact_model.dart';
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_address_model.dart';
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
 import 'package:booktokenapp/service/clinic/clinic_service.dart';
+import 'package:booktokenapp/utils/date_converter.dart';
+import 'package:booktokenapp/utils/json_converters.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -24,12 +26,14 @@ class Clinic extends ChangeNotifier {
   String? profilePicUrl;
   String? about;
   String? notice;
-  @JsonKey(name: 'dateOfBirth')
+  @JsonKey(name: 'dateOfBirth', fromJson: utcToLocalOptional)
   DateTime? dob;
   bool isVerified;
   List<String> speciality;
   bool isSubscribed;
+  @JsonKey(fromJson: utcToLocal)
   DateTime subStartDate;
+  @JsonKey(fromJson: utcToLocal)
   DateTime subEndDate;
   bool hasClinicStarted;
 
@@ -56,9 +60,9 @@ class Clinic extends ChangeNotifier {
     required this.subStartDate,
     required this.address,
     required this.contact,
+    this.gender,
     this.about,
     this.notice,
-    this.gender,
     this.email,
     this.profilePicUrl,
     this.dob,
@@ -69,6 +73,9 @@ class Clinic extends ChangeNotifier {
   Map<String, dynamic> toJson() => _$ClinicToJson(this);
 
 // PROVIDER LOGIC
+
+  bool get hasActiveSubcription => DateTime.now().toLocal().isBefore(subEndDate);
+
   set setisTokenLoading(bool value) {
     isLoadingTokens = value;
     notifyListeners();

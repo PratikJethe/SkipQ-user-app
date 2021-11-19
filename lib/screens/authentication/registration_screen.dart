@@ -1,7 +1,11 @@
 import 'dart:ffi';
 
 import 'package:booktokenapp/config/config.dart';
+import 'package:booktokenapp/constants/cities_list.dart';
+import 'package:booktokenapp/constants/globals.dart';
 import 'package:booktokenapp/main.dart';
+import 'package:booktokenapp/models/api_response_model.dart';
+import 'package:booktokenapp/models/user_model.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
@@ -19,10 +23,12 @@ import 'package:provider/provider.dart';
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: Config.autocompleteApiKey);
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key, required this.uid, required this.mobileNumber}) : super(key: key);
+  const RegistrationScreen({Key? key, this.uid, this.mobileNumber, this.isUpdateProfile, this.userProvider}) : super(key: key);
 
-  final String uid;
-  final int mobileNumber;
+  final String? uid;
+  final int? mobileNumber;
+  final bool? isUpdateProfile;
+  final UserProvider? userProvider;
 
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -39,20 +45,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _dobController = TextEditingController();
 
-  late String uid;
-  late int mobileNumber;
-  String? name, email, address, apartment, pinocde, dob, gender = '', city;
+  String? uid;
+  int? mobileNumber;
+  bool? isUpdateProfile;
+  UserProvider? userProvider;
+  late User user;
+  String? name, email, address, apartment, pincode, dob, gender ='', city;
   List<String> genderList = ['MALE', 'FEMALE', 'OTHER', ''];
   List<double> coordinates = [];
   FcmService _fcmService = getIt.get<FcmService>();
   DateTime? selectedDate;
+  DateTime initialDate = DateTime(DateTime.now().year - 10, 12, 31);
+
+  String selectedCityFilterList = '';
+
+  List filteredCities = [];
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime(DateTime.now().year - 10, 12, 31),
-        firstDate: DateTime(1900, 1),
-        lastDate: DateTime(DateTime.now().year - 10, 12, 31));
+        context: context, initialDate: initialDate, firstDate: DateTime(1900, 1), lastDate: DateTime(DateTime.now().year - 10, 12, 31));
 
     if (picked == null) {
       print('picked');
@@ -68,11 +79,53 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+  _updateUi() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+
     uid = widget.uid;
+    isUpdateProfile = widget.isUpdateProfile;
+    userProvider = widget.userProvider;
     mobileNumber = widget.mobileNumber;
+    if (isUpdateProfile == true) {
+      assert(userProvider != null, 'userProvider cant be null if isUpdateProfile is true');
+    } else {
+      assert(uid != null && mobileNumber != null, 'uid and mobileNumber is required if isUpdateProfile is not true');
+    }
+
+    if (isUpdateProfile == true) {
+      user = userProvider!.user;
+
+      name = user.fullName;
+      address = user.address?.address;
+      apartment = user.address?.apartment;
+      city = user.address?.city;
+      mobileNumber = user.contact.phoneNo;
+      pincode = user.address?.pincode;
+      _fullNameController.text = name!;
+      _addressController.text = address ?? '';
+      _apartemntController.text = apartment ?? '';
+      _cityController.text = city ?? '';
+      _mobileNumberController.text = mobileNumber.toString();
+      _pincodeController.text = pincode ?? '';
+      if (user.dob != null) {
+        initialDate = user.dob!;
+        selectedDate = user.dob!;
+        _dobController.text = '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}';
+      }
+
+      if (user.gender != null) {
+        gender = user.gender.toString().split('.').last;
+      }
+      if (user.address?.coordinates != null) {
+        coordinates = user.address!.coordinates!;
+      }
+    }
+
     _mobileNumberController.text = mobileNumber.toString();
   }
 
@@ -125,48 +178,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           validator: validateName,
                         ),
                         true),
-                    TextInputComponent(
-                        'Contact',
-                        TextFormField(
-                          decoration: InputDecoration(
-                            enabledBorder: formBorder,
-                            focusedBorder: formBorder,
-                            disabledBorder: formBorder,
-                            errorBorder: formErrorBorder,
-                            focusedErrorBorder: formErrorBorder,
-                            prefixIconConstraints: BoxConstraints(minHeight: 30, maxWidth: 40, maxHeight: 30),
-                            prefixIcon: Container(
-                                margin: EdgeInsets.only(right: 8),
-                                decoration: BoxDecoration(
-                                  border: Border(right: BorderSide(color: R.color.black)),
-                                ),
-                                child: Center(child: Text('+91'))),
-                          ),
-                          controller: _mobileNumberController,
-                          enabled: false,
-                        ),
-                        true),
-                    TextInputComponent(
-                        'Email',
-                        TextFormField(
-                          maxLength: 20,
-                          cursorColor: R.color.primary,
-                          cursorHeight: 25,
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                    if (isUpdateProfile != true)
+                      TextInputComponent(
+                          'Contact',
+                          TextFormField(
+                            decoration: InputDecoration(
                               enabledBorder: formBorder,
                               focusedBorder: formBorder,
+                              disabledBorder: formBorder,
                               errorBorder: formErrorBorder,
-                              focusedErrorBorder: formErrorBorder),
-                          controller: _emailController,
-                          onChanged: (value) {
-                            setState(() {
-                              email = value.trim();
-                            });
-                          },
-                          validator: validateEmail,
-                        ),
-                        false),
+                              focusedErrorBorder: formErrorBorder,
+                              prefixIconConstraints: BoxConstraints(minHeight: 30, maxWidth: 40, maxHeight: 30),
+                              prefixIcon: Container(
+                                  margin: EdgeInsets.only(right: 8),
+                                  decoration: BoxDecoration(
+                                    border: Border(right: BorderSide(color: R.color.black)),
+                                  ),
+                                  child: Center(child: Text('+91'))),
+                            ),
+                            controller: _mobileNumberController,
+                            enabled: false,
+                          ),
+                          true),
+                    if (isUpdateProfile != true)
+                      TextInputComponent(
+                          'Email',
+                          TextFormField(
+                            maxLength: 20,
+                            cursorColor: R.color.primary,
+                            cursorHeight: 25,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                                enabledBorder: formBorder,
+                                focusedBorder: formBorder,
+                                errorBorder: formErrorBorder,
+                                focusedErrorBorder: formErrorBorder),
+                            controller: _emailController,
+                            onChanged: (value) {
+                              setState(() {
+                                email = value.trim();
+                              });
+                            },
+                            validator: validateEmail,
+                          ),
+                          false),
                     // TextInputComponent('Full name', TextFormField(), true),  reserverd for address via google api
 
                     GestureDetector(
@@ -249,6 +304,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       false,
                     ), // auto filled or manual
                     GestureDetector(
+                      // onTap: () async {
+                      //   print('pressed');
+                      //   await _showBottomSheet();
+                      //   _updateUi();
+                      // },
+
                       onTap: () async {
                         onError(res) {
                           print(res);
@@ -316,7 +377,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           onChanged: (value) {
                             setState(() {
-                              pinocde = value.trim();
+                              pincode = value.trim();
                             });
                           },
                           validator: validatePincode,
@@ -426,7 +487,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           "name": name?.trim(),
                           "email": email == null || email!.isEmpty ? null : email,
                           "mobileNumber": mobileNumber,
-                          "pincode": pinocde,
+                          "pincode": pincode,
                           "apartment": apartment,
                           "gender": gender!.isEmpty ? null : gender,
                           "city": city,
@@ -437,47 +498,86 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           "coordinates": coordinates,
                         });
                         if (_formKey.currentState!.validate()) {
-                          String? token = await _fcmService.refreshToken();
+                          if (isUpdateProfile == true) {
+                            print({
+                              "fullName": name?.trim(),
+                              "pincode": pincode == null || pincode!.isEmpty ? null : pincode,
+                              "address": address == null || address!.isEmpty ? null : address,
+                              "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
+                              "gender": gender == "" ? null : gender,
+                              "city": city == null || city!.isEmpty ? null : city,
+                              "dateOfBirth": dob,
+                              "coordinates": coordinates.length < 2 ? null : coordinates,
+                            });
 
-                          if (token == null) {
-                            Fluttertoast.showToast(msg: "something went wrong. try again", gravity: ToastGravity.BOTTOM);
+                            print(coordinates.length);
+                            Map<String, dynamic> payload = {
+                              "fullName": name?.trim(),
+                              "pincode": pincode == null || pincode!.isEmpty ? null : pincode,
+                              "address": address == null || address!.isEmpty ? null : address,
+                              "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
+                              "gender": gender == "" ? null : gender,
+                              "city": city == null || city!.isEmpty ? null : city,
+                              "dateOfBirth": dob,
+                              "coordinates": coordinates.length < 2 ? null : coordinates,
+                              "profilePicUrl": user.profilePicUrl
+                            };
+                            print(payload);
 
+                            payload.removeWhere((key, value) => value == null || value == '');
+                            ServiceResponse serviceResponse = await userprovider.updateUser(payload);
+                            if (serviceResponse.apiResponse.error) {
+                              Fluttertoast.showToast(msg: "something went wrong. try again", gravity: ToastGravity.BOTTOM);
+
+                              return;
+                            }
+                            Fluttertoast.showToast(msg: "Profile Update Succesfully", gravity: ToastGravity.BOTTOM);
+                            Navigator.of(context).pop();
                             return;
+                          } else {
+                            String? token = await _fcmService.refreshToken();
+
+                            if (token == null) {
+                              Fluttertoast.showToast(msg: "something went wrong. try again", gravity: ToastGravity.BOTTOM);
+
+                              return;
+                            }
+
+                            print({
+                              "fullName": name?.trim(),
+                              "email": email == null || email!.isEmpty ? null : email,
+                              "phoneNo": mobileNumber,
+                              "pincode": pincode == null || pincode!.isEmpty ? null : pincode,
+                              "address": address == null || address!.isEmpty ? null : address,
+                              "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
+                              "gender": gender == "" ? null : gender,
+                              "city": city == null || city!.isEmpty ? null : city,
+                              "dateOfBirth": dob,
+                              "fcm": token,
+                              "uid": uid,
+                              "coordinates": coordinates.length < 2 ? null : coordinates,
+                            });
+
+                            print(coordinates.length);
+                            Map<String, dynamic> payload = {
+                              "fullName": name?.trim(),
+                              "email": email == null || email!.isEmpty ? null : email,
+                              "phoneNo": mobileNumber,
+                              "pincode": pincode == null || pincode!.isEmpty ? null : pincode,
+                              "address": address == null || address!.isEmpty ? null : address,
+                              "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
+                              "gender": gender == "" ? null : gender,
+                              "city": city == null || city!.isEmpty ? null : city,
+                              "dateOfBirth": dob,
+                              "fcm": token,
+                              "uid": uid,
+                              "coordinates": coordinates.length < 2 ? null : coordinates,
+                            };
+                            print(payload);
+
+                            payload.removeWhere((key, value) => value == null || value == '');
+                            await userprovider.register(payload, context);
                           }
-
-                          print({
-                            "fullName": name?.trim(),
-                            "email": email == null || email!.isEmpty ? null : email,
-                            "phoneNo": mobileNumber,
-                            "pincode": pinocde == null || pinocde!.isEmpty ? null : pinocde,
-                            "address": address == null || address!.isEmpty ? null : address,
-                            "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
-                            "gender": gender == "" ? null : gender,
-                            "city": city == null || city!.isEmpty ? null : city,
-                            "dateOfBirth": dob,
-                            "fcm": token,
-                            "uid": uid,
-                            "coordinates": coordinates.length < 2 ? null : coordinates,
-                          });
-
-                          print(coordinates.length);
-                          Map<String, dynamic> payload = {
-                            "fullName": name?.trim(),
-                            "email": email == null || email!.isEmpty ? null : email,
-                            "phoneNo": mobileNumber,
-                            "pincode": pinocde == null || pinocde!.isEmpty ? null : pinocde,
-                            "address": address == null || address!.isEmpty ? null : address,
-                            "apartment": apartment == null || apartment!.isEmpty ? null : apartment,
-                            "gender": gender == "" ? null : gender,
-                            "city": city == null || city!.isEmpty ? null : city,
-                            "dateOfBirth": dob,
-                            "fcm": token,
-                            "uid": uid,
-                            "coordinates": coordinates.length < 2 ? null : coordinates,
-                          };
-                          print(payload);
-                          payload.removeWhere((key, value) => value == null || value == '');
-                          await userprovider.register(payload, context);
                         }
                       },
                       child: Card(
@@ -500,6 +600,81 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
+  }
+
+  Future _showBottomSheet() async {
+    print('pressed');
+
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+        context: context,
+        builder: (builder) {
+          return StatefulBuilder(
+            builder: (context, setState) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Container(width: double.infinity, height: 60, child: Center(child: Text('Select min 1 and max 3 specialities'))),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  width: double.infinity,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Search for City',
+                      border: UnderlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        // selectedCityFilterList = value.trim();
+
+                        if (value.length < 2) {
+                          filteredCities = cityList.where((city) {
+                            return city.toString().toLowerCase().contains(value.toLowerCase());
+                          }).toList();
+                          setState(() {});
+                        } else {
+                          filteredCities = cityList.where((city) {
+                            return city.toString().toLowerCase().contains(value.toLowerCase());
+                          }).toList();
+                          setState(() {});
+                        }
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: ListView.builder(
+                        itemCount: filteredCities.length,
+                        itemBuilder: (context, index) => CheckboxListTile(
+                              title: Text(filteredCities[index]),
+                              value: city == filteredCities[index],
+                              onChanged: (value) {
+                                print(value);
+                                if (value == true) {
+                                  city = filteredCities[index];
+                                  _cityController.text = filteredCities[index];
+                                  setState(() {});
+                                }
+                                if (value == false) {
+                                  city = null;
+                                  _cityController.clear();
+                                  setState(() {});
+                                }
+                              },
+                            ))),
+
+                TextButton(
+                    onPressed: () {
+                      _updateUi();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Sumbit'))
+              ],
+            ),
+          );
+        });
   }
 }
 

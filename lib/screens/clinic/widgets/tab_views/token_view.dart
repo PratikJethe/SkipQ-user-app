@@ -26,6 +26,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
     // TODO: implement initState
     super.initState();
     clinic = widget.clinic;
+    
     print('inititialted');
     if (clinic.hasClinicStarted) {
       clinic.getPendingTokens();
@@ -37,8 +38,8 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.025,
-      ),
+          // horizontal: MediaQuery.of(context).size.width * 0.025,
+          ),
       child: ChangeNotifierProvider.value(
         value: clinic,
         child: Consumer3<Clinic, ClinicProvider, UserProvider>(
@@ -167,7 +168,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                     }
                                     if (buttonState == TokenActionButtonState.NAVIGATE) {
                                       print('here5');
-                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClinicUserToken(showAppbar: true)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ClinicUserToken(showAppbar: false)));
 
                                       return;
                                     }

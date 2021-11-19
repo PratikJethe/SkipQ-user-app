@@ -2,6 +2,7 @@ import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/my_tokens/widgets/visit_info.dart';
+import 'package:booktokenapp/widgets/custom_appbars.dart';
 import 'package:booktokenapp/widgets/search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,6 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: Consumer<ClinicProvider>(builder: (context, clinicProvider, _) {
@@ -40,7 +40,7 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SearchAppBar(),
+                        showAppBar == true?  SearchAppBar():backArrowAppbar(context),
                           (clinicProvider.userTokenList.isNotEmpty)
                               ? ClinicVisitInfo(clinicToken: clinicProvider.userTokenList.first)
                               : Card(

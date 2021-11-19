@@ -25,8 +25,11 @@ class _ClinicVisitInfoState extends State<ClinicVisitInfo> {
     super.initState();
     clinicToken = widget.clinicToken;
     clinic = widget.clinicToken.clinic;
-    print(clinicToken.tokenStatus);
     print(clinicToken.id);
+    print(clinicToken.tokenStatus);
+    print(clinicToken.createdAt);
+    print(clinicToken.updatedAt);
+
   }
 
   @override

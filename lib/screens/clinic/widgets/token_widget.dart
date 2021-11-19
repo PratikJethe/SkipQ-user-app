@@ -21,6 +21,10 @@ class _TokenWidgetState extends State<TokenWidget> {
     super.initState();
     clinicToken = widget.clinicToken;
     index = widget.index;
+    print('Token');
+    print(clinicToken.id);
+    print(clinicToken.createdAt);
+    print(clinicToken.updatedAt);
   }
 
   @override

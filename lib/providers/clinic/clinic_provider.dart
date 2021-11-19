@@ -49,6 +49,8 @@ class ClinicProvider extends ChangeNotifier {
     ServiceResponse serviceResponse = await _clinicService.searchClinic(keyword);
     setSearchLoading = false;
 
+  
+
     if (serviceResponse.apiResponse.error) {
       setSearchError = true;
       setSearchLoading = false;

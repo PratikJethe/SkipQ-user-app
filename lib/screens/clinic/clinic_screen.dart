@@ -33,7 +33,9 @@ class _ClinicScreenState extends State<ClinicScreen> {
             backArrowAppbarWithTitle(context, 'Dr. ${clinic.doctorName}'),
             ClinicInfoWidget(clinic: clinic),
             ClinicInfoCard(clinic: clinic),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Expanded(
                 child: ClinicTabView(
               clinic: clinic,

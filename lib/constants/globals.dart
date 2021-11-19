@@ -1,6 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-enum Gender { MALE, FEMALE, OTHER, NONE }
+enum Gender {
+  MALE,
+  FEMALE,
+  OTHER,
+  // @JsonValue(null)
+  // NONE
+}
 
 enum TokenStatus {
   @JsonValue('REQUESTED')
@@ -26,12 +32,4 @@ enum UserType {
   OFFLINE
 }
 
-
-enum TokenActionButtonState{
-  LOADING,
-  ERROR,
-  REQUEST,
-  CANCEL_REQUEST,
-  CANCEL_TOKEN,
-  NAVIGATE
-}
+enum TokenActionButtonState { LOADING, ERROR, REQUEST, CANCEL_REQUEST, CANCEL_TOKEN, NAVIGATE }

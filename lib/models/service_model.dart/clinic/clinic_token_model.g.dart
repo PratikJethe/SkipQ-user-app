@@ -9,9 +9,9 @@ part of 'clinic_token_model.dart';
 ClinicToken _$ClinicTokenFromJson(Map<String, dynamic> json) => ClinicToken(
       id: json['_id'] as String,
       clinic: Clinic.fromJson(json['clinicId'] as Map<String, dynamic>),
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: utcToLocal(json['createdAt'] as String),
       tokenStatus: $enumDecode(_$TokenStatusEnumMap, json['tokenStatus']),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      updatedAt: utcToLocal(json['updatedAt'] as String),
       userType: $enumDecode(_$UserTypeEnumMap, json['userType']),
       user: json['userId'] == null
           ? null

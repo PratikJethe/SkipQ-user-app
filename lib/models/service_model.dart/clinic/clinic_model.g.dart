@@ -18,18 +18,16 @@ Clinic _$ClinicFromJson(Map<String, dynamic> json) => Clinic(
       speciality: (json['speciality'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      subEndDate: DateTime.parse(json['subEndDate'] as String),
-      subStartDate: DateTime.parse(json['subStartDate'] as String),
+      subEndDate: utcToLocal(json['subEndDate'] as String),
+      subStartDate: utcToLocal(json['subStartDate'] as String),
       address: ClinicAddress.fromJson(json['address'] as Map<String, dynamic>),
       contact: Contact.fromJson(json['contact'] as Map<String, dynamic>),
+      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       about: json['about'] as String?,
       notice: json['notice'] as String?,
-      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       email: json['email'] as String?,
       profilePicUrl: json['profilePicUrl'] as String?,
-      dob: json['dateOfBirth'] == null
-          ? null
-          : DateTime.parse(json['dateOfBirth'] as String),
+      dob: utcToLocalOptional(json['dateOfBirth'] as String?),
     );
 
 Map<String, dynamic> _$ClinicToJson(Clinic instance) => <String, dynamic>{
@@ -58,5 +56,4 @@ const _$GenderEnumMap = {
   Gender.MALE: 'MALE',
   Gender.FEMALE: 'FEMALE',
   Gender.OTHER: 'OTHER',
-  Gender.NONE: 'NONE',
 };

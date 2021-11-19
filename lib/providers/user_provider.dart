@@ -7,6 +7,7 @@ import 'package:booktokenapp/screens/authentication/login_screen.dart';
 import 'package:booktokenapp/screens/authentication/registration_screen.dart';
 import 'package:booktokenapp/screens/homepage/homepage.dart';
 import 'package:booktokenapp/service/api_service.dart';
+import 'package:booktokenapp/service/user/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 class UserProvider extends ChangeNotifier {
   late User user;
   ApiService _apiService = getIt.get<ApiService>();
+  UserService _userService = UserService();
   bool isAuthenticated = false;
   int bottomNavIndex = 0;
 
@@ -108,5 +110,18 @@ class UserProvider extends ChangeNotifier {
       Fluttertoast.showToast(
           msg: "Failed to logout", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
     });
+  }
+
+  Future<ServiceResponse> updateUser(userDeatils) async {
+    ServiceResponse serviceResponse = await _userService.updateProfile(userDeatils);
+    if (serviceResponse.apiResponse.error) {
+      return serviceResponse;
+    }
+
+    user = serviceResponse.data;
+    print(user.toString());
+    notifyListeners();
+
+    return serviceResponse;
   }
 }

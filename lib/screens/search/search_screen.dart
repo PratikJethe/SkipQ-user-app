@@ -17,36 +17,43 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Consumer<UserProvider>(builder: (context, userProvider, _) {
-      return Container(
-        width: double.infinity,
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SearchAppBar(),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.my_location_sharp,
-                      color: R.color.primary,
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(body: Consumer<UserProvider>(builder: (context, userProvider, _) {
+          return Container(
+            width: double.infinity,
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SearchAppBar(),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.my_location_sharp,
+                          color: R.color.primary,
+                        ),
+                        TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Find nearby clinic',
+                              style: R.styles.fz16FontColorPrimary,
+                            ))
+                      ],
                     ),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Search by Location',
-                          style: R.styles.fz16FontColorPrimary,
-                        ))
-                  ],
-                ),
+                  ),
+                  SearchedClinic(),
+                ],
               ),
-              SearchedClinic(),
-            ],
-          ),
-        ),
-      );
-    }));
+            ),
+          );
+        })),
+      ),
+    );
   }
 }

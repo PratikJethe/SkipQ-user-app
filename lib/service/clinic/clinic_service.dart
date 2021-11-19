@@ -15,6 +15,7 @@ class ClinicService {
     }
 
     return ServiceResponse(apiResponse, data: apiResponse.data.map<Clinic>((e) {
+      print('here');
       print(e);
       return Clinic.fromJson(e);
     }));

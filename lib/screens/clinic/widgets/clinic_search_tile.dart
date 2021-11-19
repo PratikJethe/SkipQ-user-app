@@ -2,6 +2,7 @@ import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart'
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/clinic/clinic_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class ClinicSearchTile extends StatelessWidget {
@@ -12,7 +13,9 @@ class ClinicSearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        // FocusManager.instance.primaryFocus?.unfocus();
+
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClinicScreen(clinic: clinic)));
       },
       child: Card(
@@ -83,7 +86,7 @@ class ClinicSearchTile extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     )),
-                                  if (clinic.address.pincode !=null)
+                                  if (clinic.address.pincode != null)
                                     Container(
                                         child: Text(
                                       clinic.address.pincode.toString(),
