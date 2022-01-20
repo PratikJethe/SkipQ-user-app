@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/screens/authentication/registration_screen.dart';
 import 'package:booktokenapp/service/initialize_app.dart';
@@ -28,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
       Provider.of<UserProvider>(context, listen: false).getUser(context);
+     
     }).catchError((e) {
       initializeError = true;
       if (mounted) {
@@ -42,12 +44,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return SafeArea(
       child: Consumer<UserProvider>(
         builder: (context, userProvider, _) {
-
           return !initializeError
               ?
               // RegistrationScreen(uid: 'djdjdj', mobileNumber: 9090909090)
-              
-               Scaffold(
+
+              Scaffold(
                   body: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:booktokenapp/constants/globals.dart';
 import 'package:booktokenapp/models/api_response_model.dart';
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
@@ -21,17 +23,35 @@ class ClinicTokenView extends StatefulWidget {
 
 class _ClinicTokenViewState extends State<ClinicTokenView> {
   late Clinic clinic;
+  Timer? timer;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     clinic = widget.clinic;
-    
+
     print('inititialted');
     if (clinic.hasClinicStarted) {
-      clinic.getPendingTokens();
-      WidgetsBinding.instance?.addPostFrameCallback((_) => Provider.of<ClinicProvider>(context, listen: false).getUserToken());
+      if (!clinic.hasTokenError) {
+        clinic.getPendingTokens(showLoading: true);
+        WidgetsBinding.instance?.addPostFrameCallback((_) => Provider.of<ClinicProvider>(context, listen: false).getUserToken());
+      }
     }
+
+    timer = Timer.periodic(Duration(seconds: 120), (timer) {
+      if (clinic.hasClinicStarted) {
+        print('calling');
+        clinic.getPendingTokens(showLoading: false);
+        Provider.of<ClinicProvider>(context, listen: false).getUserToken();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -96,90 +116,179 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
 
             return Container(
               child: !clinic.hasClinicStarted
-                  ? Center(child: Text('Closed'))
+                  ? Center(
+                      child: Image.asset(
+                      'assets/images/closed.png',
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.width * 0.6,
+                    ))
                   : clinic.isLoadingTokens
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : Column(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Container(
-                                  child: Wrap(children: [
-                                    for (int i = 0; i < clinic.clinicPendingTokenList.length; i++)
-                                      TokenWidget(clinicToken: clinic.clinicPendingTokenList[i], index: i)
-                                  ]),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(R.color.primary)),
-                                  onPressed: () async {
-                                    ServiceResponse serviceResponse = await clinicProvider.getUserToken();
-
-                                    if (serviceResponse.apiResponse.error) {
-                                      Fluttertoast.showToast(
-                                          msg: 'something went wrong...try again!',
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 2,
-                                          fontSize: 16.0);
-
-                                      return;
-                                    }
-                                    List<ClinicToken> data = serviceResponse.data.toList();
-
-                                    if (buttonState == TokenActionButtonState.REQUEST) {
-                                      print('here1');
-
-                                      await requestToken(clinicProvider: clinicProvider, clinic: clinic);
-                                      return;
-                                    }
-                                    if (buttonState == TokenActionButtonState.CANCEL_REQUEST) {
-                                      print('here2');
-
-                                      // if (serviceResponse.data.isNotEmpty && serviceResponse.data.first.tokenStatus == TokenStatus.REQUESTED) {
-                                      if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.REQUESTED) {
-                                        await cancelRequest(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
-                                      }
-
-                                      return;
-                                    }
-                                    if (buttonState == TokenActionButtonState.CANCEL_TOKEN) {
-                                      print('here3');
-
-                                      if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.PENDING_TOKEN) {
-                                        await cancelToken(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
-                                        await clinic.getPendingTokens();
-                                      }
-                                      return;
-                                    }
-                                    if (buttonState == TokenActionButtonState.ERROR) {
-                                      // print('here4');
-
-                                      // await requestToken(clinicProvider: clinicProvider, clinic: clinic);
-                                      // return;
-                                    }
-                                    if (buttonState == TokenActionButtonState.NAVIGATE) {
-                                      print('here5');
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ClinicUserToken(showAppbar: false)));
-
-                                      return;
-                                    }
-                                  },
-                                  child: Text(
-                                    '$buttonText',
-                                    style: R.styles.fz16Fw700.merge(TextStyle(color: Colors.white)),
+                      : clinic.hasTokenError
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Something Went Wrong!..Try again',
+                                    style: R.styles.fz18Fw500,
                                   ),
-                                ))
-                          ],
-                        ),
+                                  SizedBox(height: 20),
+                                  SizedBox(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width * 0.2,
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(R.color.primary),
+                                        ),
+                                        onPressed: () async {
+                                          clinic.getPendingTokens(showLoading: true);
+                                        },
+                                        child: Text(
+                                          'Retry',
+                                          style: R.styles.fontColorWhite.merge(R.styles.fz16Fw500),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: clinic.clinicPendingTokenList.length != 0
+                                      ? RefreshIndicator(
+                                          // color: R.color.primaryL1,
+                                          // strokeWidth: 2,
+                                          onRefresh: () async {
+                                            var response1 = await clinicProvider.getUserToken();
+                                            await clinic.getPendingTokens();
+
+                                            if (response1.apiResponse.error) {
+                                              Fluttertoast.showToast(
+                                                  msg: "${response1.apiResponse.errMsg}",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 2,
+                                                  fontSize: 16.0);
+                                              return;
+                                            }
+                                          },
+                                          child: SingleChildScrollView(
+                                            physics: AlwaysScrollableScrollPhysics(),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: Wrap(children: [
+                                                for (int i = 0; i < clinic.clinicPendingTokenList.length; i++)
+                                                  TokenWidget(clinicToken: clinic.clinicPendingTokenList[i], index: i)
+                                              ]),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  '0 patients in queue',
+                                                  style: R.styles.fz18Fw500,
+                                                ),
+                                                SizedBox(height: 20),
+                                                SizedBox(
+                                                    height: 40,
+                                                    width: MediaQuery.of(context).size.width * 0.2,
+                                                    child: TextButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor: MaterialStateProperty.all(R.color.primary),
+                                                      ),
+                                                      onPressed: () async {
+                                                        clinic.getPendingTokens(showLoading: true);
+                                                      },
+                                                      child: Text(
+                                                        'Retry',
+                                                        style: R.styles.fontColorWhite.merge(R.styles.fz16Fw500),
+                                                      ),
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(R.color.primary)),
+                                      onPressed: () async {
+                                        userProvider.setShowModalLoading = true;
+                                        ServiceResponse serviceResponse = await clinicProvider.getUserToken();
+
+                                        if (serviceResponse.apiResponse.error) {
+                                          userProvider.setShowModalLoading = false;
+                                          Fluttertoast.showToast(
+                                              msg: 'something went wrong...try again!',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              timeInSecForIosWeb: 2,
+                                              fontSize: 16.0);
+
+                                          return;
+                                        }
+                                        List<ClinicToken> data = serviceResponse.data.toList();
+
+                                        if (buttonState == TokenActionButtonState.REQUEST) {
+                                          print('here1');
+
+                                          await requestToken(clinicProvider: clinicProvider, clinic: clinic);
+                                          userProvider.setShowModalLoading = false;
+                                          return;
+                                        }
+                                        if (buttonState == TokenActionButtonState.CANCEL_REQUEST) {
+                                          print('here2');
+
+                                          // if (serviceResponse.data.isNotEmpty && serviceResponse.data.first.tokenStatus == TokenStatus.REQUESTED) {
+                                          if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.REQUESTED) {
+                                            await cancelRequest(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
+                                          }
+                                          userProvider.setShowModalLoading = false;
+                                          return;
+                                        }
+                                        if (buttonState == TokenActionButtonState.CANCEL_TOKEN) {
+                                          print('here3');
+
+                                          if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.PENDING_TOKEN) {
+                                            await cancelToken(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
+                                            await clinic.getPendingTokens();
+                                          }
+                                          userProvider.setShowModalLoading = false;
+                                          return;
+                                        }
+                                        if (buttonState == TokenActionButtonState.ERROR) {
+                                          // print('here4');
+
+                                          // await requestToken(clinicProvider: clinicProvider, clinic: clinic);
+                                          // return;
+                                          await clinicProvider.getUserToken();
+                                          userProvider.setShowModalLoading = false;
+                                        }
+                                        if (buttonState == TokenActionButtonState.NAVIGATE) {
+                                          print('here5');
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ClinicUserToken(showAppbar: false)));
+                                          return;
+                                        }
+                                      },
+                                      child: Text(
+                                        '$buttonText',
+                                        style: R.styles.fz16Fw700.merge(TextStyle(color: Colors.white)),
+                                      ),
+                                    ))
+                              ],
+                            ),
             );
           },
         ),
@@ -255,7 +364,7 @@ cancelToken({required ClinicProvider clinicProvider, required Clinic clinic, req
 
   await clinicProvider.getUserToken();
   Fluttertoast.showToast(
-    msg: 'Token request cancelled',
+    msg: 'Token cancelled',
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 2,

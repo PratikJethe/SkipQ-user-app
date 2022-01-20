@@ -18,7 +18,7 @@ backArrowAppbarWithTitle(context,String text) {
   return AppBar(
     elevation: 0,
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    title: Text(text,style: R.styles.fz16FontColorBlack,),
+    title: Text(text,style: R.styles.fz16FontColorBlack.merge(R.styles.fw700),),
     leading: IconButton(
       onPressed: () {
         Navigator.of(context).pop();

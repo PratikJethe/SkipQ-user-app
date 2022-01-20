@@ -44,6 +44,7 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
                           (clinicProvider.userTokenList.isNotEmpty)
                               ? ClinicVisitInfo(clinicToken: clinicProvider.userTokenList.first)
                               : Card(
+                                margin:EdgeInsets.symmetric(vertical: 20) ,
                                   // elevation: 10,
                                   child: Container(
                                       margin: EdgeInsets.symmetric(vertical: 10),

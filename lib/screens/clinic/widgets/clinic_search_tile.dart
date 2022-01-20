@@ -1,6 +1,7 @@
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/clinic/clinic_screen.dart';
+import 'package:booktokenapp/screens/profile/widget/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -29,16 +30,19 @@ class ClinicSearchTile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                // Container(
+                //   clipBehavior: Clip.hardEdge,
+                //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                //   height: MediaQuery.of(context).size.height * 0.17,
+                //   width: MediaQuery.of(context).size.width * 0.25,
+                //   child:
+                DoctorProfileWidget(
+                  url: clinic.profilePicUrl,
                   height: MediaQuery.of(context).size.height * 0.17,
                   width: MediaQuery.of(context).size.width * 0.25,
-                  child: Image.network(
-                    clinic.profilePicUrl ?? '',
-                    fit: BoxFit.fill,
-                  ),
+                  borderRadius: 10,
                 ),
+                // ),
                 SizedBox(
                   width: 10,
                 ),
@@ -49,8 +53,15 @@ class ClinicSearchTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Dr. ${clinic.doctorName}'),
-                        Text('${clinic.speciality.first}'),
+                        Text(
+                          'Dr. ${clinic.doctorName}',
+                          style: R.styles.fz16Fw700,
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          '${clinic.speciality.first}',
+                          style: R.styles.fz14FontColorPrimary.merge(R.styles.fw700),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -78,6 +89,7 @@ class ClinicSearchTile extends StatelessWidget {
                                     clinic.address.address,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
+                                    style: R.styles.fz14Fw700.merge(R.styles.fontColorBluishGrey),
                                   )),
                                   if (!clinic.address.address.contains(clinic.address.city))
                                     Container(
@@ -85,6 +97,7 @@ class ClinicSearchTile extends StatelessWidget {
                                       clinic.address.city,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
+                                      style: R.styles.fz14Fw700.merge(R.styles.fontColorBluishGrey),
                                     )),
                                   if (clinic.address.pincode != null)
                                     Container(
@@ -92,6 +105,7 @@ class ClinicSearchTile extends StatelessWidget {
                                       clinic.address.pincode.toString(),
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
+                                      style: R.styles.fz14Fw700.merge(R.styles.fontColorBluishGrey),
                                     )),
                                 ],
                               ))

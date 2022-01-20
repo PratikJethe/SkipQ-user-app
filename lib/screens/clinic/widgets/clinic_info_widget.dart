@@ -1,4 +1,6 @@
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:booktokenapp/resources/resources.dart';
+import 'package:booktokenapp/screens/profile/widget/profile_image.dart';
 import 'package:flutter/material.dart';
 
 class ClinicInfoWidget extends StatefulWidget {
@@ -25,27 +27,41 @@ class _ClinicInfoWidgetState extends State<ClinicInfoWidget> {
       width: MediaQuery.of(context).size.width * 0.8,
       child: Row(
         children: [
-          Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(shape: BoxShape.circle),
+          // Container(
+          //   clipBehavior: Clip.hardEdge,
+          //   decoration: BoxDecoration(shape: BoxShape.circle),
+          //   height: MediaQuery.of(context).size.height * 0.17,
+          //   width: MediaQuery.of(context).size.width * 0.25,
+          //   child: Image.network(
+          //     clinic.profilePicUrl ?? '',
+          //     fit: BoxFit.fill,
+          //   ),
+          // ),
+          DoctorProfileWidget(
+            shape: BoxShape.circle,
+            url: clinic.profilePicUrl,
             height: MediaQuery.of(context).size.height * 0.17,
             width: MediaQuery.of(context).size.width * 0.25,
-            child: Image.network(
-              clinic.profilePicUrl ?? '',
-              fit: BoxFit.fill,
-            ),
+            
+            // borderRadius: 10,
           ),
-          SizedBox(width: 20,),
+
+          SizedBox(
+            width: 20,
+          ),
           Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Dr. ${clinic.doctorName}'),
-                Text('${clinic.speciality.first}'),
+                Text('Dr. ${clinic.doctorName}',style: R.styles.fz16Fw700,),
+                SizedBox(height: 5,),
+                Text('${clinic.speciality.first}',style: R.styles.fz14Fw500.merge(R.styles.fontColorPrimary),),
+                SizedBox(height: 5,),
                 Row(
                   children: [
-                    Icon(Icons.phone),
-                    Text('${clinic.contact.phoneNo}'),
+                    Icon(Icons.phone,color: R.color.primary,size: 20,),
+                    SizedBox(width:5),
+                    Text('${clinic.contact.phoneNo}',style: R.styles.fz16Fw500,),
                   ],
                 )
               ],

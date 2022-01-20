@@ -21,10 +21,6 @@ class _TokenWidgetState extends State<TokenWidget> {
     super.initState();
     clinicToken = widget.clinicToken;
     index = widget.index;
-    print('Token');
-    print(clinicToken.id);
-    print(clinicToken.createdAt);
-    print(clinicToken.updatedAt);
   }
 
   @override
@@ -49,9 +45,9 @@ class _TokenWidgetState extends State<TokenWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${index + 1}'),
+                  Text('${clinicToken.tokenNumber}',style: R.styles.fz24Fw700,),
                   if (clinicToken.user == null || clinicToken.user!.id != userProvider.user.id)
-                    Text('${clinicToken.isOnline ? 'online' : 'offline'}'),
+                    Text('${clinicToken.isOnline ? 'online' : 'offline'}',style: R.styles.fz14FontColorBluishGrey,),
                   if (clinicToken.user != null && clinicToken.user!.id == userProvider.user.id) Text('my token'),
                 ],
               ),

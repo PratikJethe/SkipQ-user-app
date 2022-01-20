@@ -16,6 +16,7 @@ class ClinicToken {
   Clinic clinic;
   @JsonKey(name: 'userId')
   User? user;
+  int? tokenNumber;
   TokenStatus tokenStatus;
   UserType userType;
   @JsonKey(fromJson: utcToLocal)
@@ -33,6 +34,7 @@ class ClinicToken {
       required this.createdAt,
       required this.tokenStatus,
       required this.updatedAt,
+      this.tokenNumber,
       required this.userType,
       this.user});
 

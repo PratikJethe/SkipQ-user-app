@@ -90,8 +90,8 @@ class _ClinicInfoCardState extends State<ClinicInfoCard> {
                           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: Container(
                             child: Text(
-                              clinic.address.address,
-                              style: R.styles.fontColorWhite,
+                              clinic.address.address ,
+                              style: R.styles.fz14Fw500.merge(R.styles.fontColorWhite),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),

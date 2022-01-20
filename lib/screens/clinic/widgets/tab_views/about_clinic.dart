@@ -1,4 +1,5 @@
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:booktokenapp/resources/resources.dart';
 import 'package:flutter/material.dart';
 
 class AboutClinic extends StatefulWidget {
@@ -23,37 +24,62 @@ class _AboutClinicState extends State<AboutClinic> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Doctor Name'),
-          Text('Dr. ${clinic.doctorName}'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('Clinic Name'),
-          Text('${clinic.clinicName}'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('Address'),
-          Text('${clinic.address.address}'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('Apartment'),
-          Text('${clinic.address.apartment ?? ''}'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('City'),
-          Text('${clinic.address.city}'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('Pincode'),
-          Text('${clinic.address.pincode}'),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Text('Clinic Name', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Text('${clinic.clinicName}', style: R.styles.fz18Fw700),
+            SizedBox(
+              height: 10,
+            ),
+            Text('Speciality', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Wrap(
+              // runSpacing: 5,
+              children: clinic.speciality
+                  .map((e) => Container(
+                    margin: EdgeInsets.only(right: 5,top: 5),
+                        decoration: BoxDecoration(color: R.color.primaryL1, borderRadius: BorderRadius.circular(100)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 8),
+                          child: Text(
+                            e,
+                            style: R.styles.fz16Fw500.merge(R.styles.fontColorWhite),
+                          ),
+                        ),
+                      ))
+                  .toList(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text('Address', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Text('${clinic.address.address}', style: R.styles.fz18Fw700),
+            SizedBox(
+              height: 10,
+            ),
+            Text('Apartment', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Text('${clinic.address.apartment ?? ''}', style: R.styles.fz18Fw700),
+            SizedBox(
+              height: 10,
+            ),
+            Text('City', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Text('${clinic.address.city}', style: R.styles.fz18Fw700),
+            SizedBox(
+              height: 10,
+            ),
+            Text('Pincode', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
+            Text('${clinic.address.pincode}', style: R.styles.fz18Fw700),
+            Text('City'),
+            Text('${clinic.address.city}', style: R.styles.fz18Fw700),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
     );
   }

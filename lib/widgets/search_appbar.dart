@@ -43,10 +43,15 @@ class _SearchAppBarState extends State<SearchAppBar> {
                       textAlignVertical: TextAlignVertical.center,
                       cursorColor: R.color.primaryL1,
                       style: R.styles.fz16FontColorBlack,
+                      onChanged: (value) {
+                        clinicProvider.serachString = value;
+                      },
                       controller: _textEdittingController,
                       cursorHeight: 20,
                       onSubmitted: (value) {
                         if (value.isNotEmpty) {
+                          clinicProvider.resetSearch(ClinicSearchMode.TEXT);
+                          clinicProvider.serachString = value;
                           clinicProvider.searchClinic(value);
                         }
                       },
@@ -58,10 +63,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
                             ? IconButton(
                                 onPressed: () {
                                   if (_textEdittingController.text.isNotEmpty) {
+                                    // clinicProvider.setSearchError = _textEdittingController.text;
+                                    clinicProvider.resetSearch(ClinicSearchMode.TEXT);
+                                    clinicProvider.serachString = _textEdittingController.text;
                                     clinicProvider.searchClinic(_textEdittingController.text);
                                   }
                                 },
-                                icon: Icon(Icons.search,color: R.color.primary,size: 30,))
+                                icon: Icon(
+                                  Icons.search,
+                                  color: R.color.primary,
+                                  size: 30,
+                                ))
                             : null,
                         border: InputBorder.none,
                         constraints: BoxConstraints(maxHeight: 50, minHeight: 50),

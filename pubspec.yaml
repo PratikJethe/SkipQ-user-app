@@ -43,10 +43,18 @@ dependencies:
   google_maps_webservice: ^0.0.19
   json_serializable: ^6.0.1
   json_annotation: ^4.3.0
+  mailto: ^2.0.0
   build_runner: ^2.1.4
   firebase_storage: ^10.1.0
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+4
+  flutter_local_notifications: ^9.1.4
+  flutter_email_sender: ^5.0.2
+  share: ^2.0.4
+  geolocator: ^8.0.1
+  page_view_indicators: ^2.0.0
+  awesome_notifications: ^0.6.20
+
 
 dev_dependencies:
   flutter_test:
@@ -63,9 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -81,7 +88,18 @@ flutter:
   fonts:
     - family: Lato
       fonts:
+        - asset: assets/fonts/Lato-Thin.ttf
+          weight: 100 
+        - asset: assets/fonts/Lato-Light.ttf
+          weight: 300 
         - asset: assets/fonts/Lato-Regular.ttf
+          weight: 400 
+        - asset: assets/fonts/Lato-Medium.ttf
+          weight: 500 
+        - asset: assets/fonts/Lato-SemiBold.ttf
+          weight: 600 
+        - asset: assets/fonts/Lato-Bold.ttf
+          weight: 700 
 
   #
   # For details regarding fonts from package dependencies,

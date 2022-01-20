@@ -11,6 +11,56 @@ class SearchedClinic extends StatefulWidget {
 }
 
 class _SearchedClinicState extends State<SearchedClinic> {
+  ScrollController _scrollController = ScrollController();
+
+  bool isPaginating = false;
+
+  late ClinicProvider clinicProvider;
+  @override
+  void initState() {
+    super.initState();
+    clinicProvider = Provider.of<ClinicProvider>(context, listen: false);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent == _scrollController.offset && !isPaginating) {
+        setState(() {
+          isPaginating = true;
+        });
+
+        if (clinicProvider.clinicSearchMode == ClinicSearchMode.TEXT) {
+          clinicProvider
+              .searchClinic(clinicProvider.serachKeyword)
+              .then((value) => setState(() {
+                    isPaginating = false;
+                  }))
+              .catchError((error) => {
+                    setState(() {
+                      isPaginating = false;
+                    })
+                  });
+        } else {
+          clinicProvider
+              .searchNearByClinic(clinicProvider.storedLattitude, clinicProvider.storedLongitude)
+              .then((value) => setState(() {
+                    isPaginating = false;
+                  }))
+              .catchError((error) => {
+                    setState(() {
+                      isPaginating = false;
+                    })
+                  });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    clinicProvider.resetSearch(ClinicSearchMode.TEXT);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ClinicProvider>(
@@ -18,16 +68,25 @@ class _SearchedClinicState extends State<SearchedClinic> {
         print('loading state ${clinicProvider.searchLoading}');
         return Expanded(
             child: Container(
-          child: clinicProvider.searchLoading
+          child: clinicProvider.searchLoading && !isPaginating
               ? Center(
                   child: CircularProgressIndicator(),
                 )
               : clinicProvider.searchedClinicList.length == 0 && clinicProvider.hasSearchedClinic
                   ? Text('No doctors found')
                   : ListView.builder(
+                      controller: _scrollController,
                       itemCount: clinicProvider.searchedClinicList.length,
-                      itemBuilder: (context, index) => ClinicSearchTile(
-                        clinic: clinicProvider.searchedClinicList[index],
+                      itemBuilder: (context, index) => Column(
+                        children: [
+                          ClinicSearchTile(
+                            clinic: clinicProvider.searchedClinicList[index],
+                          ),
+                          if (isPaginating && index == clinicProvider.searchedClinicList.length - 1)
+                            Center(
+                              child: CircularProgressIndicator(),
+                            )
+                        ],
                       ),
                     ),
         ));

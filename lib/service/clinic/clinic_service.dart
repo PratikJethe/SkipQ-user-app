@@ -7,8 +7,22 @@ import 'package:booktokenapp/service/api_service.dart';
 class ClinicService {
   ApiService _apiService = getIt.get<ApiService>();
 
-  Future<ServiceResponse> searchClinic(String keyword) async {
-    ApiResponse apiResponse = await _apiService.get("/clinic/profile/search-by-keyword?keyword=$keyword");
+  Future<ServiceResponse> searchClinic(String keyword, pageNo) async {
+    ApiResponse apiResponse = await _apiService.get("/clinic/profile/search-by-keyword?keyword=$keyword&pageNo=$pageNo");
+
+    if (apiResponse.error) {
+      return ServiceResponse(apiResponse);
+    }
+
+    return ServiceResponse(apiResponse, data: apiResponse.data.map<Clinic>((e) {
+      print('here');
+      print(e);
+      return Clinic.fromJson(e);
+    }));
+  }
+
+  Future<ServiceResponse> searchNearByClinic(double lattitude, double longitude, int pageNo) async {
+    ApiResponse apiResponse = await _apiService.get("/clinic/profile/search-by-location?lattitude=$lattitude&longitude=$longitude=&pageNo=$pageNo");
 
     if (apiResponse.error) {
       return ServiceResponse(apiResponse);

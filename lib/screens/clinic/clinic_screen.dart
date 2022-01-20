@@ -2,6 +2,7 @@ import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart'
 import 'package:booktokenapp/screens/clinic/widgets/clinic_info_card.dart';
 import 'package:booktokenapp/screens/clinic/widgets/clinic_info_widget.dart';
 import 'package:booktokenapp/screens/clinic/widgets/clinic_tab_view.dart';
+import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
 import 'package:booktokenapp/widgets/custom_appbars.dart';
 import 'package:flutter/material.dart';
 
@@ -24,26 +25,28 @@ class _ClinicScreenState extends State<ClinicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          child: Container(
-        child: Column(
-          children: [
-            backArrowAppbarWithTitle(context, 'Dr. ${clinic.doctorName}'),
-            ClinicInfoWidget(clinic: clinic),
-            ClinicInfoCard(clinic: clinic),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-                child: ClinicTabView(
-              clinic: clinic,
-            ))
-            // ClinicInfoWidget(clinic: clinic)
-          ],
-        ),
-      )),
+    return ModalLoadingScreen(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: Container(
+          child: Column(
+            children: [
+              backArrowAppbarWithTitle(context, 'Dr. ${clinic.doctorName}'),
+              ClinicInfoWidget(clinic: clinic),
+              ClinicInfoCard(clinic: clinic),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                  child: ClinicTabView(
+                clinic: clinic,
+              ))
+              // ClinicInfoWidget(clinic: clinic)
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

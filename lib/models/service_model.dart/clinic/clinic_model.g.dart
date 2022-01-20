@@ -13,13 +13,10 @@ Clinic _$ClinicFromJson(Map<String, dynamic> json) => Clinic(
       fcm: json['fcm'] as String,
       doctorName: json['doctorName'] as String,
       hasClinicStarted: json['hasClinicStarted'] as bool,
-      isSubscribed: json['isSubscribed'] as bool,
       isVerified: json['isVerified'] as bool,
       speciality: (json['speciality'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      subEndDate: utcToLocal(json['subEndDate'] as String),
-      subStartDate: utcToLocal(json['subStartDate'] as String),
       address: ClinicAddress.fromJson(json['address'] as Map<String, dynamic>),
       contact: Contact.fromJson(json['contact'] as Map<String, dynamic>),
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
@@ -46,9 +43,6 @@ Map<String, dynamic> _$ClinicToJson(Clinic instance) => <String, dynamic>{
       'dateOfBirth': instance.dob?.toIso8601String(),
       'isVerified': instance.isVerified,
       'speciality': instance.speciality,
-      'isSubscribed': instance.isSubscribed,
-      'subStartDate': instance.subStartDate.toIso8601String(),
-      'subEndDate': instance.subEndDate.toIso8601String(),
       'hasClinicStarted': instance.hasClinicStarted,
     };
 

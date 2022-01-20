@@ -6,12 +6,13 @@ import 'package:provider/provider.dart';
 Consumer<UserProvider> bottomNavigationBar(context) {
   return Consumer<UserProvider>(builder: (context, userProvider, _) {
     return BottomNavigationBar(
-      selectedLabelStyle: R.styles.fz16FontColorPrimaryD1,
       type: BottomNavigationBarType.fixed,
       landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
       unselectedItemColor: Colors.black,
       selectedItemColor: R.color.primaryD1,
-      unselectedLabelStyle: TextStyle(color: Colors.black),
+
+      selectedLabelStyle: R.styles.fz14FontColorPrimary.merge(R.styles.fw700),
+      unselectedLabelStyle: R.styles.fz14Fw700,
       currentIndex: userProvider.bottomNavIndex,
       onTap: (index) {
         print(index);

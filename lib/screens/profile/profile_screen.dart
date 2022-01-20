@@ -6,6 +6,8 @@ import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/authentication/registration_screen.dart';
 import 'package:booktokenapp/screens/drawer/drawer_widget.dart';
+import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
+import 'package:booktokenapp/screens/profile/widget/profile_image.dart';
 import 'package:booktokenapp/service/firebase_services/firebase_storage_service.dart';
 import 'package:booktokenapp/service/image_service/image_service.dart';
 import 'package:booktokenapp/widgets/custom_appbars.dart';
@@ -69,110 +71,123 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          GestureDetector(
-                            onTap: () async {
-                              try {
-                                PicType? picType = await _showBottomSheet(userProvider.user.id);
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    try {
+                                      PicType? picType = await _showBottomSheet(userProvider.user.id);
 
-                                print(picType);
+                                      print(picType);
 
-                                String? url;
+                                      String? url;
+                                      userProvider.setShowModalLoading = true;
 
-                                if (picType == PicType.CAMERA) {
-                                  url = await _updateProfilePic(ImageSource.camera, userProvider.user.id);
+                                      if (picType == PicType.CAMERA) {
+                                        url = await _updateProfilePic(ImageSource.camera, userProvider.user.id);
 
-                                  if (url == null) {
-                                    return;
-                                  }
-                                } else if (picType == PicType.GALLERY) {
-                                  url = await _updateProfilePic(ImageSource.gallery, userProvider.user.id);
-                                  if (url == null) {
-                                    return;
-                                  }
-                                } else if (picType == PicType.REMOVE) {
-                                  url = null;
-                                } else {
-                                  return;
-                                }
-                                User user = userProvider.user;
-                                Map<String, dynamic> payload = {
-                                  "fullName": user.fullName,
-                                  "pincode": user.address?.pincode,
-                                  "address": user.address?.address,
-                                  "apartment": user.address?.apartment,
-                                  "gender": user.gender == null ? null : user.gender.toString().split('.').last,
-                                  "city": user.address?.city,
-                                  "dateOfBirth": user.dob,
-                                  "coordinates": user.address?.coordinates,
-                                  "profilePicUrl": url
-                                };
+                                        if (url == null) {
+                                          userProvider.setShowModalLoading = false;
 
-                                print(payload);
+                                          return;
+                                        }
+                                      } else if (picType == PicType.GALLERY) {
+                                        url = await _updateProfilePic(ImageSource.gallery, userProvider.user.id);
+                                        if (url == null) {
+                                          userProvider.setShowModalLoading = false;
 
-                                payload.removeWhere((key, value) => value == null);
-                                ServiceResponse serviceResponse = await userProvider.updateUser(payload);
+                                          return;
+                                        }
+                                      } else if (picType == PicType.REMOVE) {
+                                        url = null;
+                                      } else {
+                                        userProvider.setShowModalLoading = false;
 
-                                if (!serviceResponse.apiResponse.error) {
-                                  Fluttertoast.showToast(
-                                      msg: 'Image succesfully updated',
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 2,
-                                      fontSize: 16.0);
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: serviceResponse.apiResponse.errMsg,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 2,
-                                      fontSize: 16.0);
-                                }
-                              } catch (e) {
-                                Fluttertoast.showToast(
-                                    msg: 'Something went wong. try again!',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 2,
-                                    fontSize: 16.0);
-                              }
-                            },
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
+                                        return;
+                                      }
+                                      User user = userProvider.user;
+                                      Map<String, dynamic> payload = {
+                                        "fullName": user.fullName,
+                                        "pincode": user.address?.pincode,
+                                        "address": user.address?.address,
+                                        "apartment": user.address?.apartment,
+                                        "gender": user.gender == null ? null : user.gender.toString().split('.').last,
+                                        "city": user.address?.city,
+                                        "dateOfBirth": user.dob?.toIso8601String(),
+                                        "coordinates": user.address?.coordinates,
+                                        "profilePicUrl": url
+                                      };
+
+                                      print(payload);
+
+                                      payload.removeWhere((key, value) => value == null);
+                                      ServiceResponse serviceResponse = await userProvider.updateUser(payload);
+
+                                      if (!serviceResponse.apiResponse.error) {
+                                        userProvider.setShowModalLoading = false;
+
+                                        Fluttertoast.showToast(
+                                            msg: 'Image succesfully updated',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 2,
+                                            fontSize: 16.0);
+                                      } else {
+                                        userProvider.setShowModalLoading = false;
+
+                                        Fluttertoast.showToast(
+                                            msg: serviceResponse.apiResponse.errMsg,
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 2,
+                                            fontSize: 16.0);
+                                      }
+                                    } catch (e) {
+                                      userProvider.setShowModalLoading = false;
+
+                                      Fluttertoast.showToast(
+                                          msg: 'Something went wong. try again!',
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 2,
+                                          fontSize: 16.0);
+                                    }
+                                  },
+                                  child: Container(
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
                                     // width: MediaQuery.of(context).size.width * 0.2,
-                                    width: MediaQuery.of(context).size.width * 0.25,
-                                    height: MediaQuery.of(context).size.height * 0.17,
 
-                                    child: Image.network(
-                                      '${userProvider.user.profilePicUrl}',
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: UserProfileWidget(
+                                    width: MediaQuery.of(context).size.width * 0.25,
+                                    height: MediaQuery.of(context).size.height * 0.15,
+                                    shape: BoxShape.rectangle,
+
+                                    )
                                   ),
-                                  SizedBox(
-                                    width: 10,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.5,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Name',
+                                        style: R.styles.fz16Fw700,
+                                      ),
+                                      Text(userProvider.user.fullName, style: R.styles.fz16FontColorPrimary)
+                                    ],
                                   ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.5,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      // mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Name',
-                                          style: R.styles.fz16Fw700,
-                                        ),
-                                        Text(userProvider.user.fullName, style: R.styles.fz16FontColorPrimary)
-                                      ],
-                                    ),
-                                  ),
-                                  Spacer()
-                                ],
-                              ),
+                                ),
+                                Spacer()
+                              ],
                             ),
                           ),
                           infoTile('Contact', '+${userProvider.user.contact.dialCode} ${userProvider.user.contact.phoneNo}'),

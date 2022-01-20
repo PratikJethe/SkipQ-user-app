@@ -72,12 +72,23 @@ class _ClinicTabViewState extends State<ClinicTabView> with TickerProviderStateM
                       ClinicTokenView(
                         clinic: clinic,
                       ),
-                      Container(
-                        child: Text("Articles Body"),
+                      SingleChildScrollView(
+                        child:clinic.notice!=null && clinic.notice!.isNotEmpty? Container(
+                          // color: Colors.amber,
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: R.color.primaryL1
+                          ),
+                            child: Text(clinic.notice!,style: R.styles.fz16Fw500.merge(R.styles.fontColorWhite),),
+                          ),
+                        ):Container(),
                       ),
                      AboutClinic(clinic: clinic,)
                     ]),
-                  ),
+                  )
                 )
               ],
             ),

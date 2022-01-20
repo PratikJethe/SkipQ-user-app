@@ -30,11 +30,7 @@ class Clinic extends ChangeNotifier {
   DateTime? dob;
   bool isVerified;
   List<String> speciality;
-  bool isSubscribed;
-  @JsonKey(fromJson: utcToLocal)
-  DateTime subStartDate;
-  @JsonKey(fromJson: utcToLocal)
-  DateTime subEndDate;
+
   bool hasClinicStarted;
 
   //Provider Retaed Properties
@@ -53,11 +49,9 @@ class Clinic extends ChangeNotifier {
     required this.fcm,
     required this.doctorName,
     required this.hasClinicStarted,
-    required this.isSubscribed,
     required this.isVerified,
     required this.speciality,
-    required this.subEndDate,
-    required this.subStartDate,
+   
     required this.address,
     required this.contact,
     this.gender,
@@ -74,21 +68,28 @@ class Clinic extends ChangeNotifier {
 
 // PROVIDER LOGIC
 
-  bool get hasActiveSubcription => DateTime.now().toLocal().isBefore(subEndDate);
+
+    @JsonKey(ignore: true)
+  bool hasTokenError = false;
 
   set setisTokenLoading(bool value) {
     isLoadingTokens = value;
     notifyListeners();
   }
 
-  getPendingTokens() async {
-    clinicPendingTokenList.clear();
-    setisTokenLoading = true;
+  getPendingTokens({bool? showLoading}) async {
+    if (showLoading==true) {
+      setisTokenLoading = true;
+    }
+    hasTokenError = false;
     ServiceResponse serviceResponse = await _clinicService.getPendingToken(id);
     setisTokenLoading = false;
 
+    clinicPendingTokenList.clear();
+
     print(serviceResponse.data);
     if (serviceResponse.apiResponse.error) {
+      hasTokenError = true;
       isLoadingTokens = false;
       return;
     }

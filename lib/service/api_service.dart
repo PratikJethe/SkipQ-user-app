@@ -1,6 +1,6 @@
-import 'dart:ffi';
 import 'dart:io';
 
+import 'package:booktokenapp/config/app_config.dart';
 import 'package:booktokenapp/constants/api_constant.dart';
 import 'package:booktokenapp/models/api_response_model.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -9,7 +9,13 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ApiService {
-  Dio _dio = Dio(BaseOptions(connectTimeout: 5000, receiveTimeout: 5000, sendTimeout: 5000));
+  Dio _dio = Dio(BaseOptions(
+    connectTimeout: 5000,
+    receiveTimeout: 5000,
+    sendTimeout: 5000,
+  ));
+  final String domainUrl = AppConfig.domainUrl;
+  final String baseUrl = AppConfig.baseUrl;
 
   addCookieInceptor() async {
     print('before');
@@ -64,7 +70,7 @@ class ApiService {
 
   ApiResponse _customErrorResponse(e) {
     print(e);
-    if (e is DioError && e.type == DioErrorType.response) {
+    if (e is DioError && e.type == DioErrorType.response && e.response!.data.runtimeType != String) {
       return ApiResponse(e.response!.data!["status"], {}, e.response!.data!["errorMsg"], true);
     } else {
       return ApiResponse(500, {}, "server error", true);

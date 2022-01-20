@@ -19,6 +19,7 @@ class UserProvider extends ChangeNotifier {
   ApiService _apiService = getIt.get<ApiService>();
   UserService _userService = UserService();
   bool isAuthenticated = false;
+  bool showModalLoading = false;
   int bottomNavIndex = 0;
 
   set setBottomNavIndex(index) {
@@ -26,6 +27,11 @@ class UserProvider extends ChangeNotifier {
       bottomNavIndex = index;
       notifyListeners();
     }
+  }
+
+  set setShowModalLoading(value) {
+    showModalLoading = value;
+    notifyListeners();
   }
 
   Future getUser(BuildContext context) async {

@@ -12,6 +12,7 @@ ClinicToken _$ClinicTokenFromJson(Map<String, dynamic> json) => ClinicToken(
       createdAt: utcToLocal(json['createdAt'] as String),
       tokenStatus: $enumDecode(_$TokenStatusEnumMap, json['tokenStatus']),
       updatedAt: utcToLocal(json['updatedAt'] as String),
+      tokenNumber: json['tokenNumber'] as int?,
       userType: $enumDecode(_$UserTypeEnumMap, json['userType']),
       user: json['userId'] == null
           ? null
@@ -23,6 +24,7 @@ Map<String, dynamic> _$ClinicTokenToJson(ClinicToken instance) =>
       '_id': instance.id,
       'clinicId': instance.clinic,
       'userId': instance.user,
+      'tokenNumber': instance.tokenNumber,
       'tokenStatus': _$TokenStatusEnumMap[instance.tokenStatus],
       'userType': _$UserTypeEnumMap[instance.userType],
       'createdAt': instance.createdAt.toIso8601String(),

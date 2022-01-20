@@ -13,6 +13,7 @@ class ResourceStyles {
   TextStyle get fontColorPrimaryL1 => TextStyle(color: colors.primaryL1);
   TextStyle get fontColorPrimaryL2 => TextStyle(color: colors.primaryL2);
   TextStyle get fontColorGrey => TextStyle(color: Colors.grey[700]);
+  TextStyle get fontColorBluishGrey => TextStyle(color: colors.bluishGrey);
   TextStyle get fontColorBlack => TextStyle(color: Colors.black);
 
   final TextStyle fz12 = TextStyle(fontSize: 12);
@@ -29,6 +30,8 @@ class ResourceStyles {
   TextStyle get fz16FontColorPrimaryD1 => fz16.merge(fontColorPrimaryD1);
   TextStyle get fz16FontColorBlack=> fz16.merge(fontColorBlack);
   TextStyle get fz14FontColorGrey => fz14.merge(fontColorGrey);
+  TextStyle get fz14FontColorBluishGrey => fz14.merge(fontColorBluishGrey);
+  TextStyle get fz14FontColorPrimary => fz14.merge(fontColorPrimary);
   TextStyle get fz16FontColorPrimary => fz16.merge(fontColorPrimary);
   TextStyle get fz16FontColorPrimaryL1 => fz16.merge(fontColorPrimaryL1);
 
