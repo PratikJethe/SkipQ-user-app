@@ -20,8 +20,9 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
+  AppConfig _appConfig = getIt.get<AppConfig>();
 
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: AppConfig.autocompleteApiKey);
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _appConfig.googleMapApiKeys);
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key, this.uid, this.mobileNumber, this.isUpdateProfile, this.userProvider}) : super(key: key);
@@ -247,7 +248,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           Prediction? prediction = await PlacesAutocomplete.show(
                             context: context,
                             mode: Mode.overlay,
-                            apiKey: AppConfig.autocompleteApiKey,
+                            apiKey:_appConfig.googleMapApiKeys,
                             components: [],
                             types: [],
                             onError: onError,
@@ -336,7 +337,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           Prediction? prediction = await PlacesAutocomplete.show(
                             context: context,
                             mode: Mode.overlay,
-                            apiKey: AppConfig.autocompleteApiKey,
+                            apiKey: _appConfig.googleMapApiKeys,
                             // sessionToken: sessionToken,
                             components: [],
                             types: ['(cities)'],
