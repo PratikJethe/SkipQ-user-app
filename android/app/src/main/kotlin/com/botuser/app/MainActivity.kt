@@ -1,4 +1,4 @@
-package com.example.booktokenapp
+package com.botuser.app
 
 import io.flutter.embedding.android.FlutterActivity
 
