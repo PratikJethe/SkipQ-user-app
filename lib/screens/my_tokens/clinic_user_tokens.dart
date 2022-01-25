@@ -32,7 +32,9 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
       body: SafeArea(
         child: Consumer<ClinicProvider>(builder: (context, clinicProvider, _) {
           return clinicProvider.isUserTokenLoading
-              ? Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator(
+                color: R.color.primaryL1,
+              ))
               : clinicProvider.hasErrorUserTokenLoading
                   ? Text('Error while loading')
                   : Container(
@@ -40,11 +42,11 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                        showAppBar == true?  SearchAppBar():backArrowAppbar(context),
+                          showAppBar == true ? SearchAppBar() : backArrowAppbar(context),
                           (clinicProvider.userTokenList.isNotEmpty)
                               ? ClinicVisitInfo(clinicToken: clinicProvider.userTokenList.first)
                               : Card(
-                                margin:EdgeInsets.symmetric(vertical: 20) ,
+                                  margin: EdgeInsets.symmetric(vertical: 20),
                                   // elevation: 10,
                                   child: Container(
                                       margin: EdgeInsets.symmetric(vertical: 10),

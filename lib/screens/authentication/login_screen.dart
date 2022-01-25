@@ -45,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     controller: _pageController,
                     children: [
-                      OnboardingGuide(path: 'queue.png', title: 'Why wait in queue?. Now book online token from your doctor'),
-                      OnboardingGuide(path: 'search.png', title: 'Select doctor based on Location, Address, city and Speciality'),
-                      OnboardingGuide(path: 'notification-small.png', title: 'Get real time update on your phone. Leave your home when you are notified'),
+                      OnboardingGuide(path: 'queue.png', title: 'Tiered of waiting in a clinic queue? Now book token online from home.'),
+                      OnboardingGuide(path: 'search.png', title: 'Select doctor based on Location, Address, City and Speciality'),
+                      OnboardingGuide(path: 'notification-small.png', title: 'Get real time update on your phone. Leave home when notified.'),
                       
                       // OnboardingGuide(path: 'queue.jpg', title: 'Why wait in queue'),
                       // OnboardingGuide(path: 'queue.jpg', title: 'Why wait in queue'),

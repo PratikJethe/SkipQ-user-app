@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                                 if (locationPermission == LocationPermission.deniedForever) {
                                   Fluttertoast.showToast(
-                                      msg: "Location permission is denied. go to settings and allow location access to poroceed",
+                                      msg: "Location permission is denied. go to settings and allow location access to proceed",
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 2,
@@ -73,9 +73,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 if (locationPermission == LocationPermission.always) {
                                   Position position = await geolocatorService.getCordinates();
                                   if (!clinicProvider.searchLoading) {
-                                    print('called');
                                     clinicProvider.resetSearch(ClinicSearchMode.LOCATION);
-                                    clinicProvider.latlng = [position.latitude, position.longitude];
+                                    clinicProvider.latlng = [position.latitude, position.longitude]; //store for pagination process
                                     clinicProvider.searchNearByClinic(position.latitude, position.longitude);
                                   }
                                 }

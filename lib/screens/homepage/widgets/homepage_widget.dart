@@ -47,9 +47,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    InfoTile(path: 'queue.png', title: 'Why wait in queue?. Now book online token from your doctor'),
+                    InfoTile(path: 'queue.png', title: 'Tiered of waiting in a clinic queue? Now book token online from home.'),
                     InfoTile(path: 'search.png', title: 'Select doctor based on Location, Address, city and Speciality'),
-                    InfoTile(path: 'notification-small.png', title: 'Get real time update on your phone. Leave your home when you are notified'),
+                    InfoTile(path: 'notification-small.png', title: 'Get real time update on your phone. Leave home when notified.'),
                   ],
                 ),
               ))
@@ -92,7 +92,7 @@ class InfoTile extends StatelessWidget {
               child: Text(
                 title,
                 softWrap: true,
-                style: R.styles.fz18Fw500.merge(R.styles.fontColorPrimaryL1),
+                style: R.styles.fz18Fw500.merge(R.styles.fontColorBluishGrey),
                 textAlign: TextAlign.start,
               ),
             ),

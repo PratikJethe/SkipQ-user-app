@@ -1,4 +1,5 @@
 import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
+import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/clinic/widgets/clinic_search_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,7 @@ class _SearchedClinicState extends State<SearchedClinic> {
                   child: CircularProgressIndicator(),
                 )
               : clinicProvider.searchedClinicList.length == 0 && clinicProvider.hasSearchedClinic
-                  ? Text('No doctors found')
+                  ? Center(child: Text('Clinic not found',style: R.styles.fz18Fw500,))
                   : ListView.builder(
                       controller: _scrollController,
                       itemCount: clinicProvider.searchedClinicList.length,
@@ -84,7 +85,9 @@ class _SearchedClinicState extends State<SearchedClinic> {
                           ),
                           if (isPaginating && index == clinicProvider.searchedClinicList.length - 1)
                             Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: R.color.primaryL1,
+                              ),
                             )
                         ],
                       ),

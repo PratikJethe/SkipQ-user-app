@@ -4,6 +4,7 @@ import 'package:booktokenapp/main.dart';
 import 'package:booktokenapp/providers/user_provider.dart';
 import 'package:booktokenapp/resources/resources.dart';
 import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
+import 'package:booktokenapp/screens/privarcy/privarcy_policy.dart';
 import 'package:booktokenapp/service/firebase_services/auth_service.dart';
 import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
 import 'package:booktokenapp/utils/validators.dart';
@@ -82,7 +83,6 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   sendOtp(String phoneNumber, String dialCode, int? forceResendToken) {
-
     _firebaseAuthService.firebaseInstance.verifyPhoneNumber(
       phoneNumber: '+$dialCode$phoneNumber',
       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
@@ -190,9 +190,16 @@ class _OtpVerificationState extends State<OtpVerification> {
                           width: MediaQuery.of(context).size.width * 0.85,
                           child: Text('By proceeding, you agree to our', style: R.styles.fz14FontColorGrey),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Text('Terms & Conditions', style: R.styles.fz16FontColorPrimary),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PrivarcyPolicy()));
+                          },
+                          child: AbsorbPointer(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: Text('Terms & Conditions', style: R.styles.fz16FontColorPrimary),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           height: 30,
@@ -281,7 +288,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                               )
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Align(
                             alignment: Alignment.center,
                             child: MaterialButton(

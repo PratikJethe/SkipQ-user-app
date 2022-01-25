@@ -135,6 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 2,
                                             fontSize: 16.0);
+                                         
+
                                       } else {
                                         userProvider.setShowModalLoading = false;
 
@@ -144,6 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 2,
                                             fontSize: 16.0);
+                                        
+
                                       }
                                     } catch (e) {
                                       userProvider.setShowModalLoading = false;

@@ -54,6 +54,9 @@ dependencies:
   geolocator: ^8.0.1
   page_view_indicators: ^2.0.0
   awesome_notifications: ^0.6.20
+  flutter_spinkit: ^5.1.0
+  admob_flutter: ^2.0.0
+  webview_flutter: ^3.0.0
 
 
 dev_dependencies:

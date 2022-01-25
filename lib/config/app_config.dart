@@ -10,6 +10,7 @@ class AppConfig {
   String get baseUrl => _jsonContent["BASE_URL"];
   String get googleMapApiKeys => _jsonContent["GOOGLE_MAP_API_KEYS"];
   String get enviroment => _jsonContent["ENVIROMENT"];
+  String get interstitialADId => _jsonContent["INTERSTITIAL_ANDROID_AD_MOB_ID"];
 
   Future<bool> loadAppConfig() async {
     try {

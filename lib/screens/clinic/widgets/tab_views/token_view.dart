@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:booktokenapp/config/app_config.dart';
 import 'package:booktokenapp/constants/globals.dart';
 import 'package:booktokenapp/models/api_response_model.dart';
 import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
@@ -13,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../main.dart';
+
 class ClinicTokenView extends StatefulWidget {
   final Clinic clinic;
   const ClinicTokenView({Key? key, required this.clinic}) : super(key: key);
@@ -24,12 +28,17 @@ class ClinicTokenView extends StatefulWidget {
 class _ClinicTokenViewState extends State<ClinicTokenView> {
   late Clinic clinic;
   Timer? timer;
+  AppConfig _appConfig = getIt.get<AppConfig>();
+
+  late AdmobInterstitial _interstitial;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     clinic = widget.clinic;
-
+    _interstitial = AdmobInterstitial(adUnitId: _appConfig.interstitialADId);
+    _interstitial.load();
     print('inititialted');
     if (clinic.hasClinicStarted) {
       if (!clinic.hasTokenError) {
@@ -51,6 +60,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _interstitial.dispose();
     timer?.cancel();
   }
 
@@ -124,7 +134,9 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                     ))
                   : clinic.isLoadingTokens
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: R.color.primaryL1,
+                          ),
                         )
                       : clinic.hasTokenError
                           ? Center(
@@ -244,35 +256,58 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                         if (buttonState == TokenActionButtonState.REQUEST) {
                                           print('here1');
 
-                                          await requestToken(clinicProvider: clinicProvider, clinic: clinic);
+                                          showAlertBoxTokenAction('Are you sure you want to request token?', "Proceed", () async {
+                                            await requestToken(clinicProvider: clinicProvider, clinic: clinic);
+                                            userProvider.setShowModalLoading = false;
+                                            try {
+                                              _interstitial.show();
+                                            } catch (e) {
+                                            }
+
+                                            return;
+                                          }, context);
+
                                           userProvider.setShowModalLoading = false;
-                                          return;
+
+                                          // await requestToken(clinicProvider: clinicProvider, clinic: clinic);
+                                          // userProvider.setShowModalLoading = false;
+                                          // return;
                                         }
                                         if (buttonState == TokenActionButtonState.CANCEL_REQUEST) {
                                           print('here2');
 
                                           // if (serviceResponse.data.isNotEmpty && serviceResponse.data.first.tokenStatus == TokenStatus.REQUESTED) {
-                                          if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.REQUESTED) {
-                                            await cancelRequest(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
-                                          }
+
+                                          showAlertBoxTokenAction('Are you sure you want to cancel request?', "Proceed", () async {
+                                            if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.REQUESTED) {
+                                              await cancelRequest(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
+                                            }
+                                            userProvider.setShowModalLoading = false;
+                                            return;
+                                          }, context);
+
                                           userProvider.setShowModalLoading = false;
-                                          return;
                                         }
                                         if (buttonState == TokenActionButtonState.CANCEL_TOKEN) {
                                           print('here3');
 
-                                          if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.PENDING_TOKEN) {
-                                            await cancelToken(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
-                                            await clinic.getPendingTokens();
-                                          }
+                                          showAlertBoxTokenAction('Are you sure you want to cancel token?', "Proceed", () async {
+                                            if (data.isNotEmpty && data.first.tokenStatus == TokenStatus.PENDING_TOKEN) {
+                                              await cancelToken(clinicProvider: clinicProvider, clinic: clinic, token: data.first);
+                                              await clinic.getPendingTokens();
+                                            }
+                                            userProvider.setShowModalLoading = false;
+                                            return;
+                                          }, context);
+
                                           userProvider.setShowModalLoading = false;
-                                          return;
                                         }
                                         if (buttonState == TokenActionButtonState.ERROR) {
                                           // print('here4');
 
                                           // await requestToken(clinicProvider: clinicProvider, clinic: clinic);
                                           // return;
+
                                           await clinicProvider.getUserToken();
                                           userProvider.setShowModalLoading = false;
                                         }
@@ -370,4 +405,31 @@ cancelToken({required ClinicProvider clinicProvider, required Clinic clinic, req
     timeInSecForIosWeb: 2,
     fontSize: 16.0,
   );
+}
+
+showAlertBoxTokenAction(String title, String buttontText, Function callback, BuildContext context) {
+  print('alert dialog');
+  return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text(title),
+            actions: [
+              TextButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(R.color.primary)),
+                  onPressed: () {
+                    callback();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    buttontText,
+                    style: R.styles.fontColorWhite,
+                  )),
+              TextButton(
+                  style: ButtonStyle(),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'))
+            ],
+          ));
 }

@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <application
-        android:label="booktokenapp"
+        android:label="@string/app_name"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -45,5 +45,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7069028281997823~8159674003"/>
+
     </application>
 </manifest>

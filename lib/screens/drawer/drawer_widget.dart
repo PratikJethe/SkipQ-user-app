@@ -1,4 +1,5 @@
 import 'package:booktokenapp/providers/user_provider.dart';
+import 'package:booktokenapp/screens/privarcy/privarcy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,13 @@ class _UserDrawerState extends State<UserDrawer> {
               title: Text('Rate us'),
               onTap: () async {
                 await userProvider.logout(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.privacy_tip_rounded),
+              title: Text('Privacy Policy'),
+              onTap: () async {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PrivarcyPolicy()));
               },
             ),
             ListTile(

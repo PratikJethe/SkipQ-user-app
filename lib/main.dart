@@ -8,6 +8,7 @@ import 'package:booktokenapp/service/api_service.dart';
 import 'package:booktokenapp/service/firebase_services/auth_service.dart';
 import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -32,12 +33,15 @@ void main() async {
             channelName: 'Basic notifications',
             channelDescription: 'Notification channel for basic tests',
             defaultColor: Color(0xFF9D50DD),
+
             ledColor: Colors.white)
       ],
       // Channel groups are only visual and are not required
       channelGroups: [NotificationChannelGroup(channelGroupkey: 'basic_channel_group', channelGroupName: 'Basic group')],
       debug: true);
-  runApp(MyApp());
+
+       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
