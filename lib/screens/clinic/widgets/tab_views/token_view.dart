@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:booktokenapp/config/app_config.dart';
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
-import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/clinic/widgets/token_widget.dart';
-import 'package:booktokenapp/screens/my_tokens/clinic_user_tokens.dart';
+import 'package:skipq/config/app_config.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:skipq/providers/clinic/clinic_provider.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/clinic/widgets/token_widget.dart';
+import 'package:skipq/screens/my_tokens/clinic_user_tokens.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -261,8 +261,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                             userProvider.setShowModalLoading = false;
                                             try {
                                               _interstitial.show();
-                                            } catch (e) {
-                                            }
+                                            } catch (e) {}
 
                                             return;
                                           }, context);

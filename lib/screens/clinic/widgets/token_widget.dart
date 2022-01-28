@@ -1,6 +1,6 @@
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,9 +45,15 @@ class _TokenWidgetState extends State<TokenWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${clinicToken.tokenNumber}',style: R.styles.fz24Fw700,),
+                  Text(
+                    '${clinicToken.tokenNumber}',
+                    style: R.styles.fz24Fw700,
+                  ),
                   if (clinicToken.user == null || clinicToken.user!.id != userProvider.user.id)
-                    Text('${clinicToken.isOnline ? 'online' : 'offline'}',style: R.styles.fz14FontColorBluishGrey,),
+                    Text(
+                      '${clinicToken.isOnline ? 'online' : 'offline'}',
+                      style: R.styles.fz14FontColorBluishGrey,
+                    ),
                   if (clinicToken.user != null && clinicToken.user!.id == userProvider.user.id) Text('my token'),
                 ],
               ),

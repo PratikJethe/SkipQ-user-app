@@ -1,9 +1,9 @@
-import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/my_tokens/widgets/visit_info.dart';
-import 'package:booktokenapp/widgets/custom_appbars.dart';
-import 'package:booktokenapp/widgets/search_appbar.dart';
+import 'package:skipq/providers/clinic/clinic_provider.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/my_tokens/widgets/visit_info.dart';
+import 'package:skipq/widgets/custom_appbars.dart';
+import 'package:skipq/widgets/search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,9 +32,10 @@ class _ClinicUserTokenState extends State<ClinicUserToken> {
       body: SafeArea(
         child: Consumer<ClinicProvider>(builder: (context, clinicProvider, _) {
           return clinicProvider.isUserTokenLoading
-              ? Center(child: CircularProgressIndicator(
-                color: R.color.primaryL1,
-              ))
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: R.color.primaryL1,
+                ))
               : clinicProvider.hasErrorUserTokenLoading
                   ? Text('Error while loading')
                   : Container(

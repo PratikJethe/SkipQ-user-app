@@ -1,7 +1,7 @@
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/clinic/clinic_screen.dart';
-import 'package:booktokenapp/screens/profile/widget/profile_image.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/clinic/clinic_screen.dart';
+import 'package:skipq/screens/profile/widget/profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';

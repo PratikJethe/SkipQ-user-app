@@ -1,5 +1,5 @@
-import 'package:booktokenapp/config/app_config.dart';
-import 'package:booktokenapp/main.dart';
+import 'package:skipq/config/app_config.dart';
+import 'package:skipq/main.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

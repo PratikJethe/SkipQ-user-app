@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,4 +1,4 @@
-import 'package:booktokenapp/resources/colour_resource.dart';
+import 'package:skipq/resources/colour_resource.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class ResourceStyles {
   TextStyle get fz12FontColorGrey => fz12.merge(fontColorGrey);
   TextStyle get fz16FontColorGrey => fz16.merge(fontColorGrey);
   TextStyle get fz16FontColorPrimaryD1 => fz16.merge(fontColorPrimaryD1);
-  TextStyle get fz16FontColorBlack=> fz16.merge(fontColorBlack);
+  TextStyle get fz16FontColorBlack => fz16.merge(fontColorBlack);
   TextStyle get fz14FontColorGrey => fz14.merge(fontColorGrey);
   TextStyle get fz14FontColorBluishGrey => fz14.merge(fontColorBluishGrey);
   TextStyle get fz14FontColorPrimary => fz14.merge(fontColorPrimary);

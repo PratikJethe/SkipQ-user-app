@@ -1,26 +1,27 @@
 import 'dart:ffi';
 
-import 'package:booktokenapp/config/app_config.dart';
-import 'package:booktokenapp/constants/cities_list.dart';
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/main.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/user_model.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
-import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
-import 'package:booktokenapp/service/firebase_services/firebase_service.dart';
-import 'package:booktokenapp/utils/validators.dart';
-import 'package:booktokenapp/widgets/custom_appbars.dart';
-import 'package:booktokenapp/widgets/textfield_borders.dart';
+import 'package:skipq/config/app_config.dart';
+import 'package:skipq/constants/cities_list.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/main.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/user_model.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/modal-screen/modal_loading_screen.dart';
+import 'package:skipq/service/firebase_services/fcm_service.dart';
+import 'package:skipq/service/firebase_services/firebase_service.dart';
+import 'package:skipq/utils/validators.dart';
+import 'package:skipq/widgets/custom_appbars.dart';
+import 'package:skipq/widgets/textfield_borders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
-  AppConfig _appConfig = getIt.get<AppConfig>();
+
+AppConfig _appConfig = getIt.get<AppConfig>();
 
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _appConfig.googleMapApiKeys);
 
@@ -175,7 +176,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               });
                             },
                             decoration: InputDecoration(
-                              errorStyle:errorTextStyle,
+                                errorStyle: errorTextStyle,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
                                 enabledBorder: formBorder,
                                 focusedBorder: formBorder,
@@ -189,23 +190,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             'Contact',
                             TextFormField(
                               decoration: InputDecoration(
-                                errorStyle:errorTextStyle,
+                                errorStyle: errorTextStyle,
                                 enabledBorder: formBorder,
                                 focusedBorder: formBorder,
                                 disabledBorder: formBorder,
                                 errorBorder: formErrorBorder,
                                 focusedErrorBorder: formErrorBorder,
-                             prefixIconConstraints: BoxConstraints(minHeight: 30, maxWidth: 50, maxHeight: 30),
-                            prefixIcon: Container(
-                                margin: EdgeInsets.only(right: 8),
-                                decoration: BoxDecoration(
-                                  border: Border(right: BorderSide(color: R.color.black)),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  '+91',
-                                  style: R.styles.fz16Fw500,
-                                ))),
+                                prefixIconConstraints: BoxConstraints(minHeight: 30, maxWidth: 50, maxHeight: 30),
+                                prefixIcon: Container(
+                                    margin: EdgeInsets.only(right: 8),
+                                    decoration: BoxDecoration(
+                                      border: Border(right: BorderSide(color: R.color.black)),
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      '+91',
+                                      style: R.styles.fz16Fw500,
+                                    ))),
                               ),
                               controller: _mobileNumberController,
                               enabled: false,
@@ -219,7 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               cursorColor: R.color.primary,
                               cursorHeight: 25,
                               decoration: InputDecoration(
-                                errorStyle:errorTextStyle,
+                                  errorStyle: errorTextStyle,
                                   contentPadding: EdgeInsets.symmetric(horizontal: 15),
                                   enabledBorder: formBorder,
                                   focusedBorder: formBorder,
@@ -240,15 +241,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
 
-                          onError(res) {
-                            print(res);
+                          onError(PlacesAutocompleteResponse res) {
                             Fluttertoast.showToast(msg: "something went wrong. check your internet connection", gravity: ToastGravity.BOTTOM);
                           }
 
                           Prediction? prediction = await PlacesAutocomplete.show(
                             context: context,
                             mode: Mode.overlay,
-                            apiKey:_appConfig.googleMapApiKeys,
+                            apiKey: _appConfig.googleMapApiKeys,
                             components: [],
                             types: [],
                             onError: onError,
@@ -281,7 +281,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           'Address',
                           TextFormField(
                             decoration: InputDecoration(
-                              errorStyle:errorTextStyle,
+                                errorStyle: errorTextStyle,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
                                 enabledBorder: formBorder,
                                 focusedBorder: formBorder,
@@ -301,7 +301,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           cursorColor: R.color.primary,
                           cursorHeight: 25,
                           decoration: InputDecoration(
-                            errorStyle:errorTextStyle,
+                              errorStyle: errorTextStyle,
                               contentPadding: EdgeInsets.symmetric(horizontal: 15),
                               enabledBorder: formBorder,
                               focusedBorder: formBorder,
@@ -362,7 +362,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           'City',
                           TextFormField(
                             decoration: InputDecoration(
-                              errorStyle:errorTextStyle,
+                                errorStyle: errorTextStyle,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
                                 enabledBorder: formBorder,
                                 focusedBorder: formBorder,
@@ -385,7 +385,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           'Pincode',
                           TextFormField(
                             decoration: InputDecoration(
-                              errorStyle:errorTextStyle,
+                                errorStyle: errorTextStyle,
                                 hintText: 'ex: 400012',
                                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
                                 enabledBorder: formBorder,
@@ -413,7 +413,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           'Date of birth',
                           TextFormField(
                             decoration: InputDecoration(
-                              errorStyle:errorTextStyle,
+                              errorStyle: errorTextStyle,
                               suffixIcon: Icon(Icons.calendar_today_sharp),
                               contentPadding: EdgeInsets.symmetric(horizontal: 15),
                               enabledBorder: formBorder,

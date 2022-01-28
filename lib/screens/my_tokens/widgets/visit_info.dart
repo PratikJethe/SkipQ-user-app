@@ -1,10 +1,10 @@
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_info_card.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_info_widget.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_search_tile.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_info_card.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_info_widget.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_search_tile.dart';
 import 'package:flutter/material.dart';
 
 class ClinicVisitInfo extends StatefulWidget {
@@ -29,7 +29,6 @@ class _ClinicVisitInfoState extends State<ClinicVisitInfo> {
     print(clinicToken.tokenStatus);
     print(clinicToken.createdAt);
     print(clinicToken.updatedAt);
-
   }
 
   @override

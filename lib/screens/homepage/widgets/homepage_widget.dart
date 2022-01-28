@@ -1,7 +1,7 @@
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
-import 'package:booktokenapp/widgets/search_appbar.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/service/firebase_services/fcm_service.dart';
+import 'package:skipq/widgets/search_appbar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

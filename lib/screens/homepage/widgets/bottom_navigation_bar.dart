@@ -1,5 +1,5 @@
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,6 @@ Consumer<UserProvider> bottomNavigationBar(context) {
       landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
       unselectedItemColor: Colors.black,
       selectedItemColor: R.color.primaryD1,
-
       selectedLabelStyle: R.styles.fz14FontColorPrimary.merge(R.styles.fw700),
       unselectedLabelStyle: R.styles.fz14Fw700,
       currentIndex: userProvider.bottomNavIndex,

@@ -1,9 +1,9 @@
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_info_card.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_info_widget.dart';
-import 'package:booktokenapp/screens/clinic/widgets/clinic_tab_view.dart';
-import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
-import 'package:booktokenapp/widgets/custom_appbars.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_info_card.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_info_widget.dart';
+import 'package:skipq/screens/clinic/widgets/clinic_tab_view.dart';
+import 'package:skipq/screens/modal-screen/modal_loading_screen.dart';
+import 'package:skipq/widgets/custom_appbars.dart';
 import 'package:flutter/material.dart';
 
 class ClinicScreen extends StatefulWidget {

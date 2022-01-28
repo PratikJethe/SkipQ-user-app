@@ -1,7 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/screens/authentication/registration_screen.dart';
-import 'package:booktokenapp/service/initialize_app.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/screens/authentication/registration_screen.dart';
+import 'package:skipq/service/initialize_app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
       Provider.of<UserProvider>(context, listen: false).getUser(context);
-     
     }).catchError((e) {
       initializeError = true;
       if (mounted) {

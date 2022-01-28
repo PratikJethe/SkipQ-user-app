@@ -1,5 +1,5 @@
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/screens/privarcy/privarcy_policy.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/screens/privarcy/privarcy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:provider/provider.dart';

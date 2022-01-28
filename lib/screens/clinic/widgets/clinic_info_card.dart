@@ -1,5 +1,5 @@
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 
 class ClinicInfoCard extends StatefulWidget {
@@ -90,7 +90,7 @@ class _ClinicInfoCardState extends State<ClinicInfoCard> {
                           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: Container(
                             child: Text(
-                              clinic.address.address ,
+                              clinic.address.address,
                               style: R.styles.fz14Fw500.merge(R.styles.fontColorWhite),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,

@@ -1,16 +1,16 @@
 import 'dart:io';
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/user_model.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/authentication/registration_screen.dart';
-import 'package:booktokenapp/screens/drawer/drawer_widget.dart';
-import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
-import 'package:booktokenapp/screens/profile/widget/profile_image.dart';
-import 'package:booktokenapp/service/firebase_services/firebase_storage_service.dart';
-import 'package:booktokenapp/service/image_service/image_service.dart';
-import 'package:booktokenapp/widgets/custom_appbars.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/user_model.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/authentication/registration_screen.dart';
+import 'package:skipq/screens/drawer/drawer_widget.dart';
+import 'package:skipq/screens/modal-screen/modal_loading_screen.dart';
+import 'package:skipq/screens/profile/widget/profile_image.dart';
+import 'package:skipq/service/firebase_services/firebase_storage_service.dart';
+import 'package:skipq/service/image_service/image_service.dart';
+import 'package:skipq/widgets/custom_appbars.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -135,8 +135,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 2,
                                             fontSize: 16.0);
-                                         
-
                                       } else {
                                         userProvider.setShowModalLoading = false;
 
@@ -146,8 +144,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 2,
                                             fontSize: 16.0);
-                                        
-
                                       }
                                     } catch (e) {
                                       userProvider.setShowModalLoading = false;
@@ -161,17 +157,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     }
                                   },
                                   child: Container(
-                                    clipBehavior: Clip.hardEdge,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                                    // width: MediaQuery.of(context).size.width * 0.2,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                                      // width: MediaQuery.of(context).size.width * 0.2,
 
-                                    child: UserProfileWidget(
-                                    width: MediaQuery.of(context).size.width * 0.25,
-                                    height: MediaQuery.of(context).size.height * 0.15,
-                                    shape: BoxShape.rectangle,
-
-                                    )
-                                  ),
+                                      child: UserProfileWidget(
+                                        width: MediaQuery.of(context).size.width * 0.25,
+                                        height: MediaQuery.of(context).size.height * 0.15,
+                                        shape: BoxShape.rectangle,
+                                      )),
                                 ),
                                 SizedBox(
                                   width: 10,

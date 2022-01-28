@@ -1,11 +1,11 @@
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/general_model/contact_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_address_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
-import 'package:booktokenapp/service/clinic/clinic_service.dart';
-import 'package:booktokenapp/utils/date_converter.dart';
-import 'package:booktokenapp/utils/json_converters.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/general_model/contact_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_address_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:skipq/service/clinic/clinic_service.dart';
+import 'package:skipq/utils/date_converter.dart';
+import 'package:skipq/utils/json_converters.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -51,7 +51,6 @@ class Clinic extends ChangeNotifier {
     required this.hasClinicStarted,
     required this.isVerified,
     required this.speciality,
-   
     required this.address,
     required this.contact,
     this.gender,
@@ -68,8 +67,7 @@ class Clinic extends ChangeNotifier {
 
 // PROVIDER LOGIC
 
-
-    @JsonKey(ignore: true)
+  @JsonKey(ignore: true)
   bool hasTokenError = false;
 
   set setisTokenLoading(bool value) {
@@ -78,7 +76,7 @@ class Clinic extends ChangeNotifier {
   }
 
   getPendingTokens({bool? showLoading}) async {
-    if (showLoading==true) {
+    if (showLoading == true) {
       setisTokenLoading = true;
     }
     hasTokenError = false;

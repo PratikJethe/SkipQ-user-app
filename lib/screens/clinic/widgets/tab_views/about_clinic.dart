@@ -1,5 +1,5 @@
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 
 class AboutClinic extends StatefulWidget {
@@ -41,10 +41,10 @@ class _AboutClinicState extends State<AboutClinic> {
               // runSpacing: 5,
               children: clinic.speciality
                   .map((e) => Container(
-                    margin: EdgeInsets.only(right: 5,top: 5),
+                        margin: EdgeInsets.only(right: 5, top: 5),
                         decoration: BoxDecoration(color: R.color.primaryL1, borderRadius: BorderRadius.circular(100)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                           child: Text(
                             e,
                             style: R.styles.fz16Fw500.merge(R.styles.fontColorWhite),

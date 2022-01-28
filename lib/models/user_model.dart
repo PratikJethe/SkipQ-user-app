@@ -1,8 +1,8 @@
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/general_model/contact_model.dart';
-import 'package:booktokenapp/models/general_model/uaer_address_model.dart';
-import 'package:booktokenapp/utils/date_converter.dart';
-import 'package:booktokenapp/utils/json_converters.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/general_model/contact_model.dart';
+import 'package:skipq/models/general_model/uaer_address_model.dart';
+import 'package:skipq/utils/date_converter.dart';
+import 'package:skipq/utils/json_converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';

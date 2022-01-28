@@ -1,4 +1,4 @@
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 
 backArrowAppbar(context) {
@@ -14,11 +14,15 @@ backArrowAppbar(context) {
     ),
   );
 }
-backArrowAppbarWithTitle(context,String text) {
+
+backArrowAppbarWithTitle(context, String text) {
   return AppBar(
     elevation: 0,
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    title: Text(text,style: R.styles.fz16FontColorBlack.merge(R.styles.fw700),),
+    title: Text(
+      text,
+      style: R.styles.fz16FontColorBlack.merge(R.styles.fw700),
+    ),
     leading: IconButton(
       onPressed: () {
         Navigator.of(context).pop();
@@ -28,5 +32,3 @@ backArrowAppbarWithTitle(context,String text) {
     ),
   );
 }
-
-
