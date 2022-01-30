@@ -44,6 +44,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+    AppConfig _appConfig = getIt.get<AppConfig>();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -52,7 +54,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ClinicProvider()),
         ],
         child: MaterialApp(
-          title: 'BookToken',
+          debugShowCheckedModeBanner: !_appConfig.isProd,
+          title: _appConfig.isProd?'SkipQ':'SkipQ -Dev',
           theme: ThemeData(
             fontFamily: 'Lato',
             primarySwatch: Colors.blue,
