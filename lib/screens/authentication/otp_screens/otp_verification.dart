@@ -91,6 +91,9 @@ class _OtpVerificationState extends State<OtpVerification> {
         // signinWithFirebase(phoneAuthCredential);
       },
       verificationFailed: (firebaseAuthException) {
+        print(firebaseAuthException.message);
+        print(firebaseAuthException.code);
+        print(firebaseAuthException.stackTrace);
         Fluttertoast.showToast(
             msg: "Verification Failed", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
       },
