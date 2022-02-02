@@ -57,13 +57,13 @@ android {
             dimension "SkipQ"
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "SkipQ -DEV"
-            versionNameSuffix ".dev"
+           
         }
         prod {
             dimension "SkipQ"
             applicationIdSuffix ".prod"
             resValue "string", "app_name", "SkipQ"
-            versionNameSuffix ".prod"
+            
         }
     }
 
