@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           title: 'SkipQ',
           theme: ThemeData(
             fontFamily: 'Lato',
-            primarySwatch: Colors.blue,
+            // primarySwatch: Colors.blue,
           ),
           home: SplashScreen(),
         ));

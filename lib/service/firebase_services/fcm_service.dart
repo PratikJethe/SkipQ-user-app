@@ -22,5 +22,5 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
   print(message.data);
   print(message.data["title"]);
   await AwesomeNotifications().createNotification(
-      content: NotificationContent(id: 10, channelKey: 'basic_channel', title: message.data["title"], body: message.data["body"]));
+      content: NotificationContent(id: 10, channelKey: 'token_update_channel', title: message.data["title"], body: message.data["body"]));
 }

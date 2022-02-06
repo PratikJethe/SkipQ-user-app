@@ -223,7 +223,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                                         clinic.getPendingTokens(showLoading: true);
                                                       },
                                                       child: Text(
-                                                        'Retry',
+                                                        'Reload',
                                                         style: R.styles.fontColorWhite.merge(R.styles.fz16Fw500),
                                                       ),
                                                     ))

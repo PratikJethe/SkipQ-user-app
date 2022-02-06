@@ -83,6 +83,8 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   sendOtp(String phoneNumber, String dialCode, int? forceResendToken) {
+            Fluttertoast.showToast(msg: "Sending OTP...", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
+
     _firebaseAuthService.firebaseInstance.verifyPhoneNumber(
       phoneNumber: '+$dialCode$phoneNumber',
       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {

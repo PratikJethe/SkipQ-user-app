@@ -22,6 +22,8 @@ class UserProvider extends ChangeNotifier {
   bool showModalLoading = false;
   int bottomNavIndex = 0;
 
+
+
   set setBottomNavIndex(index) {
     if (bottomNavIndex != index) {
       bottomNavIndex = index;
@@ -111,6 +113,8 @@ class UserProvider extends ChangeNotifier {
   Future logout(BuildContext context) async {
     _apiService.clearCookies().then((value) {
       isAuthenticated = false;
+   showModalLoading = false;
+   bottomNavIndex = 0;
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (Route<dynamic> route) => false);
     }).catchError((error) {
       Fluttertoast.showToast(

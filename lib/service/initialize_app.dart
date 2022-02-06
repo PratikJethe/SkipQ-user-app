@@ -30,15 +30,15 @@ class InitializeApp {
           null,
           [
             NotificationChannel(
-                channelGroupKey: 'basic_channel_group',
-                channelKey: 'basic_channel',
-                channelName: 'Basic notifications',
-                channelDescription: 'Notification channel for basic tests',
+                channelGroupKey: 'token_update_group',
+                channelKey: 'token_update_channel',
+                channelName: 'token update notifications',
+                channelDescription: 'lets you know  token status',
                 defaultColor: Color(0xFF9D50DD),
                 ledColor: Colors.white)
           ],
           // Channel groups are only visual and are not required
-          channelGroups: [NotificationChannelGroup(channelGroupkey: 'basic_channel_group', channelGroupName: 'Basic group')],
+          channelGroups: [NotificationChannelGroup(channelGroupkey: 'token_update_group', channelGroupName: 'token update group')],
           debug: true);
       return true;
     } catch (e) {

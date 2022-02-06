@@ -14,6 +14,7 @@ class AppConfig {
   String get googleMapApiKeys => firebaseRemoteConfig.getString("GOOGLE_MAP_API_KEYS");
   String get enviroment => firebaseRemoteConfig.getString("ENVIROMENT");
   String get interstitialADId => firebaseRemoteConfig.getString("INTERSTITIAL_ANDROID_AD_MOB_ID");
+  String get helpEmail => firebaseRemoteConfig.getString("HELP_EMAIL");
   bool get isProd => firebaseRemoteConfig.getString("ENVIROMENT") == "PROD";
   Future<bool> loadAppConfig() async {
     try {
@@ -26,14 +27,15 @@ class AppConfig {
       throw e;
     }
   }
-   Future<bool> isUpdateRequired() async {
+
+  Future<bool> isUpdateRequired() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     await firebaseRemoteConfig.ensureInitialized();
     await firebaseRemoteConfig.fetchAndActivate();
     print(packageInfo.version);
-    print(firebaseRemoteConfig.getString('ANDROID_USER_APP_MIN_STABLE_VERISON'));
+    print(firebaseRemoteConfig.getString('ANDROID_USER_APP_MIN_STABLE_VERSION'));
     Version appVersion = Version.parse(packageInfo.version);
-    Version minStableVersion = Version.parse(firebaseRemoteConfig.getString('ANDROID_USER_APP_MIN_STABLE_VERISON'));
+    Version minStableVersion = Version.parse(firebaseRemoteConfig.getString('ANDROID_USER_APP_MIN_STABLE_VERSION'));
     print(minStableVersion);
     print(appVersion);
     print('appVersion < minStableVersion');

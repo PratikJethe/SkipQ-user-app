@@ -75,9 +75,20 @@ class _SearchedClinicState extends State<SearchedClinic> {
                 )
               : clinicProvider.searchedClinicList.length == 0 && clinicProvider.hasSearchedClinic
                   ? Center(
-                      child: Text(
-                      'Clinic not found',
-                      style: R.styles.fz18Fw500,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search,
+                          size: 80,
+                          color: R.color.bluishGrey,
+                        ),
+                        SizedBox(height: 20,),
+                        Text(
+                          'No Result Found',
+                          style: R.styles.fz20Fw500,
+                        ),
+                      ],
                     ))
                   : ListView.builder(
                       controller: _scrollController,

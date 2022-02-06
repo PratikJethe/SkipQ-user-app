@@ -46,6 +46,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           TextButton(
                               onPressed: () async {
+                                FocusScope.of(context).requestFocus(FocusNode());
+
+                                clinicProvider.setSearchLoading = true;
                                 GeolocationService geolocatorService = GeolocationService();
 
                                 LocationPermission locationPermission = await geolocatorService.permissionStatus();
@@ -71,7 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                 }
 
                                 if (locationPermission == LocationPermission.always) {
+                                  clinicProvider.setSearchLoading = true;
+
                                   Position position = await geolocatorService.getCordinates();
+                                  clinicProvider.setSearchLoading = false;
+
                                   if (!clinicProvider.searchLoading) {
                                     clinicProvider.resetSearch(ClinicSearchMode.LOCATION);
                                     clinicProvider.latlng = [position.latitude, position.longitude]; //store for pagination process
