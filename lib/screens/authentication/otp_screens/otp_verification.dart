@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:booktokenapp/main.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
-import 'package:booktokenapp/screens/privarcy/privarcy_policy.dart';
-import 'package:booktokenapp/service/firebase_services/auth_service.dart';
-import 'package:booktokenapp/service/firebase_services/fcm_service.dart';
-import 'package:booktokenapp/utils/validators.dart';
+import 'package:skipq/main.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/modal-screen/modal_loading_screen.dart';
+import 'package:skipq/screens/privarcy/privarcy_policy.dart';
+import 'package:skipq/service/firebase_services/auth_service.dart';
+import 'package:skipq/service/firebase_services/fcm_service.dart';
+import 'package:skipq/utils/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,6 +83,8 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   sendOtp(String phoneNumber, String dialCode, int? forceResendToken) {
+            Fluttertoast.showToast(msg: "Sending OTP...", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
+
     _firebaseAuthService.firebaseInstance.verifyPhoneNumber(
       phoneNumber: '+$dialCode$phoneNumber',
       verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
@@ -91,6 +93,9 @@ class _OtpVerificationState extends State<OtpVerification> {
         // signinWithFirebase(phoneAuthCredential);
       },
       verificationFailed: (firebaseAuthException) {
+        print(firebaseAuthException.message);
+        print(firebaseAuthException.code);
+        print(firebaseAuthException.stackTrace);
         Fluttertoast.showToast(
             msg: "Verification Failed", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
       },

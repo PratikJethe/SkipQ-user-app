@@ -1,8 +1,8 @@
-import 'package:booktokenapp/main.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_token_model.dart';
-import 'package:booktokenapp/service/api_service.dart';
+import 'package:skipq/main.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_token_model.dart';
+import 'package:skipq/service/api_service.dart';
 
 class ClinicService {
   ApiService _apiService = getIt.get<ApiService>();

@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:booktokenapp/service/firebase_services/firebase_service.dart';
+import 'package:skipq/service/firebase_services/firebase_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FcmService {
@@ -20,7 +20,7 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
   await FirebaseService().inittializeFirebase();
   print('here');
   print(message.data);
-  print( message.data["title"]);
-await  AwesomeNotifications()
-      .createNotification(content: NotificationContent(id: 10, channelKey: 'basic_channel', title: message.data["title"], body: message.data["body"]));
+  print(message.data["title"]);
+  await AwesomeNotifications().createNotification(
+      content: NotificationContent(id: 10, channelKey: 'token_update_channel', title: message.data["title"], body: message.data["body"]));
 }

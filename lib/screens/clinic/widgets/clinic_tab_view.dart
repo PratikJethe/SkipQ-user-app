@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/clinic/widgets/tab_views/about_clinic.dart';
-import 'package:booktokenapp/screens/clinic/widgets/tab_views/token_view.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/clinic/widgets/tab_views/about_clinic.dart';
+import 'package:skipq/screens/clinic/widgets/tab_views/token_view.dart';
 import 'package:flutter/material.dart';
 
 class ClinicTabView extends StatefulWidget {
@@ -66,30 +66,33 @@ class _ClinicTabViewState extends State<ClinicTabView> with TickerProviderStateM
                       ]),
                 ),
                 Expanded(
-                  child: Container(
-                    //Add this to give height
-                    child: TabBarView(controller: _tabController, children: [
-                      ClinicTokenView(
-                        clinic: clinic,
-                      ),
-                      SingleChildScrollView(
-                        child:clinic.notice!=null && clinic.notice!.isNotEmpty? Container(
-                          // color: Colors.amber,
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: R.color.primaryL1
-                          ),
-                            child: Text(clinic.notice!,style: R.styles.fz16Fw500.merge(R.styles.fontColorWhite),),
-                          ),
-                        ):Container(),
-                      ),
-                     AboutClinic(clinic: clinic,)
-                    ]),
-                  )
-                )
+                    child: Container(
+                  //Add this to give height
+                  child: TabBarView(controller: _tabController, children: [
+                    ClinicTokenView(
+                      clinic: clinic,
+                    ),
+                    SingleChildScrollView(
+                      child: clinic.notice != null && clinic.notice!.isNotEmpty
+                          ? Container(
+                              // color: Colors.amber,
+                              child: Container(
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: R.color.primaryL1),
+                                child: Text(
+                                  clinic.notice!,
+                                  style: R.styles.fz16Fw500.merge(R.styles.fontColorWhite),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                    ),
+                    AboutClinic(
+                      clinic: clinic,
+                    )
+                  ]),
+                ))
               ],
             ),
           ),

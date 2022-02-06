@@ -1,4 +1,4 @@
-package com.botuser.app
+package com.skipquser.app
 
 import io.flutter.embedding.android.FlutterActivity
 

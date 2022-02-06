@@ -1,10 +1,10 @@
-import 'package:booktokenapp/providers/clinic/clinic_provider.dart';
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/modal-screen/modal_loading_screen.dart';
-import 'package:booktokenapp/screens/search/widgets/searched_clinic.dart';
-import 'package:booktokenapp/service/geolocation_service.dart';
-import 'package:booktokenapp/widgets/search_appbar.dart';
+import 'package:skipq/providers/clinic/clinic_provider.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/modal-screen/modal_loading_screen.dart';
+import 'package:skipq/screens/search/widgets/searched_clinic.dart';
+import 'package:skipq/service/geolocation_service.dart';
+import 'package:skipq/widgets/search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -46,6 +46,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           TextButton(
                               onPressed: () async {
+                                FocusScope.of(context).requestFocus(FocusNode());
+
+                                clinicProvider.setSearchLoading = true;
                                 GeolocationService geolocatorService = GeolocationService();
 
                                 LocationPermission locationPermission = await geolocatorService.permissionStatus();
@@ -71,7 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                 }
 
                                 if (locationPermission == LocationPermission.always) {
+                                  clinicProvider.setSearchLoading = true;
+
                                   Position position = await geolocatorService.getCordinates();
+                                  clinicProvider.setSearchLoading = false;
+
                                   if (!clinicProvider.searchLoading) {
                                     clinicProvider.resetSearch(ClinicSearchMode.LOCATION);
                                     clinicProvider.latlng = [position.latitude, position.longitude]; //store for pagination process

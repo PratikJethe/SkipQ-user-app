@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:booktokenapp/config/app_config.dart';
-import 'package:booktokenapp/main.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
+import 'package:skipq/config/app_config.dart';
+import 'package:skipq/main.dart';
+import 'package:skipq/models/api_response_model.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';

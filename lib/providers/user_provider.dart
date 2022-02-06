@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:booktokenapp/main.dart';
-import 'package:booktokenapp/models/api_response_model.dart';
-import 'package:booktokenapp/models/user_model.dart';
-import 'package:booktokenapp/screens/authentication/login_screen.dart';
-import 'package:booktokenapp/screens/authentication/registration_screen.dart';
-import 'package:booktokenapp/screens/homepage/homepage.dart';
-import 'package:booktokenapp/service/api_service.dart';
-import 'package:booktokenapp/service/user/user_service.dart';
+import 'package:skipq/main.dart';
+import 'package:skipq/models/api_response_model.dart';
+import 'package:skipq/models/user_model.dart';
+import 'package:skipq/screens/authentication/login_screen.dart';
+import 'package:skipq/screens/authentication/registration_screen.dart';
+import 'package:skipq/screens/homepage/homepage.dart';
+import 'package:skipq/service/api_service.dart';
+import 'package:skipq/service/user/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +21,8 @@ class UserProvider extends ChangeNotifier {
   bool isAuthenticated = false;
   bool showModalLoading = false;
   int bottomNavIndex = 0;
+
+
 
   set setBottomNavIndex(index) {
     if (bottomNavIndex != index) {
@@ -111,6 +113,8 @@ class UserProvider extends ChangeNotifier {
   Future logout(BuildContext context) async {
     _apiService.clearCookies().then((value) {
       isAuthenticated = false;
+   showModalLoading = false;
+   bottomNavIndex = 0;
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (Route<dynamic> route) => false);
     }).catchError((error) {
       Fluttertoast.showToast(

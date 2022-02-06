@@ -1,5 +1,5 @@
-import 'package:booktokenapp/resources/resources.dart';
-import 'package:booktokenapp/screens/authentication/otp_screens/otp_verification.dart';
+import 'package:skipq/resources/resources.dart';
+import 'package:skipq/screens/authentication/otp_screens/otp_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       OnboardingGuide(path: 'queue.png', title: 'Tiered of waiting in a clinic queue? Now book token online from home.'),
                       OnboardingGuide(path: 'search.png', title: 'Select doctor based on Location, Address, City and Speciality'),
                       OnboardingGuide(path: 'notification-small.png', title: 'Get real time update on your phone. Leave home when notified.'),
-                      
+
                       // OnboardingGuide(path: 'queue.jpg', title: 'Why wait in queue'),
                       // OnboardingGuide(path: 'queue.jpg', title: 'Why wait in queue'),
                     ],
@@ -147,7 +147,7 @@ class OnboardingGuide extends StatelessWidget {
       // color: Colors.amber,
       child: Center(
         child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 0.9,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -160,10 +160,12 @@ class OnboardingGuide extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Text(
-              
-                title,style: R.styles.fz18Fw500.merge(R.styles.fontColorWhite),
+                title,
+                style: R.styles.fz18Fw500.merge(R.styles.fontColorWhite),
                 textAlign: TextAlign.center,
               )
             ],

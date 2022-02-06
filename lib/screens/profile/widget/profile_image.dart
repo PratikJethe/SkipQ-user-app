@@ -1,5 +1,5 @@
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/resources/resources.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -74,21 +74,20 @@ class DoctorProfileWidget extends StatelessWidget {
         decoration:
             BoxDecoration(color: Colors.grey, shape: shape, borderRadius: shape == BoxShape.circle ? null : BorderRadius.circular(borderRadius ?? 0)),
         child: url != null
-            ? Image.network(
-                url!,
+            ? Image.network(url!,
                 fit: BoxFit.cover,
                 errorBuilder: (context, _, __) => errorWidget ?? Icon(Icons.error),
                 loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: R.color.primaryL1,
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  })
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: R.color.primaryL1,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                })
             : FittedBox(
                 fit: BoxFit.contain,
                 child: Icon(Icons.person, color: Colors.white

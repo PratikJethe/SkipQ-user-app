@@ -1,4 +1,4 @@
-// import 'package:booktokenapp/constants/globals.dart';
+// import 'package:skipq/constants/globals.dart';
 
 // resolveGender(String? gender) {
 //   if (gender == null) {

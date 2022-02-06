@@ -1,9 +1,12 @@
-import 'package:booktokenapp/providers/user_provider.dart';
-import 'package:booktokenapp/screens/privarcy/privarcy_policy.dart';
+import 'package:skipq/config/app_config.dart';
+import 'package:skipq/providers/user_provider.dart';
+import 'package:skipq/screens/privarcy/privarcy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+
+import '../../main.dart';
 
 class UserDrawer extends StatefulWidget {
   const UserDrawer({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class UserDrawer extends StatefulWidget {
 }
 
 class _UserDrawerState extends State<UserDrawer> {
+  AppConfig _appConfig = getIt.get<AppConfig>();
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, userProvider, _) {
@@ -35,19 +40,19 @@ class _UserDrawerState extends State<UserDrawer> {
                 await userProvider.logout(context);
               },
             ),
-            ListTile(
-              leading: Icon(Icons.question_answer),
-              title: Text('Faq'),
-              onTap: () async {
-                await userProvider.logout(context);
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.question_answer),
+            //   title: Text('Faq'),
+            //   onTap: () async {
+            //     await userProvider.logout(context);
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.share),
               title: Text('Share app'),
               onTap: () async {
                 Share.share(
-                    'check out this app which helps you to book token online from your local doctor \n https://play.google.com/store/apps/details?id=com.company.booktoken');
+                    'check out this app which helps you to book token online from your local doctor \n https://play.google.com/store/apps/details?id=com.skipquser.app');
               },
             ),
             ListTile(
@@ -55,7 +60,7 @@ class _UserDrawerState extends State<UserDrawer> {
               title: Text('Help'),
               onTap: () async {
                 final Email email = Email(
-                  recipients: ['booktokenhelp@gmail.com'],
+                  recipients: [_appConfig.helpEmail],
                   isHTML: false,
                 );
 
@@ -66,7 +71,7 @@ class _UserDrawerState extends State<UserDrawer> {
               leading: Icon(Icons.thumb_up),
               title: Text('Rate us'),
               onTap: () async {
-                await userProvider.logout(context);
+                // await userProvider.logout(context);
               },
             ),
             ListTile(

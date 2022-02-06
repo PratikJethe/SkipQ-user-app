@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:booktokenapp/constants/globals.dart';
-import 'package:booktokenapp/models/service_model.dart/clinic/clinic_model.dart';
-import 'package:booktokenapp/models/user_model.dart';
-import 'package:booktokenapp/utils/date_converter.dart';
+import 'package:skipq/constants/globals.dart';
+import 'package:skipq/models/service_model.dart/clinic/clinic_model.dart';
+import 'package:skipq/models/user_model.dart';
+import 'package:skipq/utils/date_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'clinic_token_model.g.dart';
