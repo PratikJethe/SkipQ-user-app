@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:skipq/config/app_config.dart';
 import 'package:skipq/providers/user_provider.dart';
 import 'package:skipq/resources/resources.dart';
@@ -63,9 +64,16 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Container(
+                          child: SvgPicture.asset(
+                        'assets/images/splash_logo.svg',
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.height * 0.3,
+                        fit: BoxFit.cover,
+                      )),
                       Text(
                         'SkipQ',
-                        style: TextStyle(color: R.color.primary, fontSize: 30, fontWeight: FontWeight.w700),
+                        style: TextStyle(color: R.color.primary, fontSize: 24, fontWeight: FontWeight.w700),
                       ),
                       SizedBox(height: 40),
                       CircularProgressIndicator(

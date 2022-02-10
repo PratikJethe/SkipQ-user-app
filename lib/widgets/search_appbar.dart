@@ -62,6 +62,8 @@ class _SearchAppBarState extends State<SearchAppBar> {
                         suffixIcon: (currentIndex == 1)
                             ? IconButton(
                                 onPressed: () {
+                                  FocusScope.of(context).requestFocus(FocusNode());
+
                                   if (_textEdittingController.text.isNotEmpty) {
                                     // clinicProvider.setSearchError = _textEdittingController.text;
                                     clinicProvider.resetSearch(ClinicSearchMode.TEXT);
