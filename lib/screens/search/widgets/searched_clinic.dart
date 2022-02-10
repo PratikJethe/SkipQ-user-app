@@ -1,3 +1,5 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:skipq/models/api_response_model.dart';
 import 'package:skipq/providers/clinic/clinic_provider.dart';
 import 'package:skipq/resources/resources.dart';
 import 'package:skipq/screens/clinic/widgets/clinic_search_tile.dart';
@@ -29,27 +31,33 @@ class _SearchedClinicState extends State<SearchedClinic> {
         });
 
         if (clinicProvider.clinicSearchMode == ClinicSearchMode.TEXT) {
-          clinicProvider
-              .searchClinic(clinicProvider.serachKeyword)
-              .then((value) => setState(() {
-                    isPaginating = false;
-                  }))
-              .catchError((error) => {
-                    setState(() {
-                      isPaginating = false;
-                    })
-                  });
+          clinicProvider.searchClinic(clinicProvider.serachKeyword).then((serviceResponse) {
+            if (serviceResponse.data.length == 0) {
+              Fluttertoast.showToast(
+                  msg: "No more results", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
+            }
+            setState(() {
+              isPaginating = false;
+            });
+          }).catchError((error) {
+            setState(() {
+              isPaginating = false;
+            });
+          });
         } else {
-          clinicProvider
-              .searchNearByClinic(clinicProvider.storedLattitude, clinicProvider.storedLongitude)
-              .then((value) => setState(() {
-                    isPaginating = false;
-                  }))
-              .catchError((error) => {
-                    setState(() {
-                      isPaginating = false;
-                    })
-                  });
+          clinicProvider.searchNearByClinic(clinicProvider.storedLattitude, clinicProvider.storedLongitude).then((serviceResponse) {
+            if (serviceResponse.data.length == 0) {
+              Fluttertoast.showToast(
+                  msg: "No more results", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 2, fontSize: 16.0);
+            }
+            setState(() {
+              isPaginating = false;
+            });
+          }).catchError((error) {
+            setState(() {
+              isPaginating = false;
+            });
+          });
         }
       }
     });
@@ -76,14 +84,16 @@ class _SearchedClinicState extends State<SearchedClinic> {
               : clinicProvider.searchedClinicList.length == 0 && clinicProvider.hasSearchedClinic
                   ? Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.search,
                           size: 80,
                           color: R.color.bluishGrey,
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           'No Result Found',
                           style: R.styles.fz20Fw500,

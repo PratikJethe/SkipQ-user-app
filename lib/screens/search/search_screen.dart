@@ -48,7 +48,6 @@ class _SearchScreenState extends State<SearchScreen> {
                               onPressed: () async {
                                 FocusScope.of(context).requestFocus(FocusNode());
 
-                                clinicProvider.setSearchLoading = true;
                                 GeolocationService geolocatorService = GeolocationService();
 
                                 LocationPermission locationPermission = await geolocatorService.permissionStatus();
@@ -68,12 +67,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
                                 if (locationPermission == LocationPermission.denied) {
                                   locationPermission = await Geolocator.requestPermission();
-                                  if (locationPermission != LocationPermission.always) {
+                                  if (locationPermission != LocationPermission.always && locationPermission != LocationPermission.whileInUse) {
                                     return;
                                   }
                                 }
 
-                                if (locationPermission == LocationPermission.always) {
+                                if (locationPermission == LocationPermission.always || locationPermission == LocationPermission.whileInUse) {
                                   clinicProvider.setSearchLoading = true;
 
                                   Position position = await geolocatorService.getCordinates();

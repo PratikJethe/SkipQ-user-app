@@ -69,7 +69,7 @@ class ClinicProvider extends ChangeNotifier {
     clinicSearchMode = searchMode;
   }
 
-  Future searchClinic(String keyword, {isPaginating}) async {
+  Future<ServiceResponse> searchClinic(String keyword, {isPaginating}) async {
     hasSearchedClinic = true;
     // searchedClinicList.clear();
     setSearchError = false;
@@ -80,15 +80,16 @@ class ClinicProvider extends ChangeNotifier {
     if (serviceResponse.apiResponse.error) {
       setSearchError = true;
       setSearchLoading = false;
-      return;
+      return serviceResponse;
     }
     if (serviceResponse.data.length != 0) {
       searchPageNo++;
     }
     searchedClinicList.addAll(serviceResponse.data);
+    return serviceResponse;
   }
 
-  Future searchNearByClinic(double lattitude, double longitude, {isPaginating}) async {
+  Future<ServiceResponse> searchNearByClinic(double lattitude, double longitude, {isPaginating}) async {
     hasSearchedClinic = true;
     // searchedClinicList.clear();
     setSearchError = false;
@@ -98,12 +99,13 @@ class ClinicProvider extends ChangeNotifier {
     if (serviceResponse.apiResponse.error) {
       setSearchError = true;
       setSearchLoading = false;
-      return;
+      return serviceResponse;
     }
     if (serviceResponse.data.length != 0) {
       searchPageNo++;
     }
     searchedClinicList.addAll(serviceResponse.data);
+    return serviceResponse;
   }
 
   Future<ServiceResponse> getUserToken() async {
