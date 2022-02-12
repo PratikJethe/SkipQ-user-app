@@ -15,6 +15,7 @@ class AppConfig {
   String get enviroment => firebaseRemoteConfig.getString("ENVIROMENT");
   String get interstitialADId => firebaseRemoteConfig.getString("INTERSTITIAL_ANDROID_AD_MOB_ID");
   String get helpEmail => firebaseRemoteConfig.getString("HELP_EMAIL");
+  String get androidAppId => firebaseRemoteConfig.getString("USER_ANDROID_APP_ID");
   bool get isProd => firebaseRemoteConfig.getString("ENVIROMENT") == "PROD";
   Future<bool> loadAppConfig() async {
     try {

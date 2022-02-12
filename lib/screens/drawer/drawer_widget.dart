@@ -1,3 +1,4 @@
+import 'package:launch_review/launch_review.dart';
 import 'package:skipq/config/app_config.dart';
 import 'package:skipq/providers/user_provider.dart';
 import 'package:skipq/screens/privarcy/privarcy_policy.dart';
@@ -52,7 +53,7 @@ class _UserDrawerState extends State<UserDrawer> {
               title: Text('Share app'),
               onTap: () async {
                 Share.share(
-                    'check out this app which helps you to book token online from your local doctor \n https://play.google.com/store/apps/details?id=com.skipquser.app');
+                    'check out this app which helps you to book token online from your local doctor \n https://play.google.com/store/apps/details?id=${_appConfig.androidAppId}');
               },
             ),
             ListTile(
@@ -71,7 +72,7 @@ class _UserDrawerState extends State<UserDrawer> {
               leading: Icon(Icons.thumb_up),
               title: Text('Rate us'),
               onTap: () async {
-                // await userProvider.logout(context);
+                LaunchReview.launch(androidAppId: _appConfig.androidAppId);
               },
             ),
             ListTile(

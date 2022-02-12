@@ -39,6 +39,7 @@ class _AboutClinicState extends State<AboutClinic> {
             Text('Speciality', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
             Wrap(
               // runSpacing: 5,
+              key: new Key(DateTime.now().toString()),
               children: clinic.speciality
                   .map((e) => Container(
                         margin: EdgeInsets.only(right: 5, top: 5),
