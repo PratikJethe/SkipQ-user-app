@@ -179,7 +179,7 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                           // strokeWidth: 2,
                                           onRefresh: () async {
                                             var response1 = await clinicProvider.getUserToken();
-                                            await clinic.getPendingTokens();
+                                            await clinic.getPendingTokens(showLoading: true);
 
                                             if (response1.apiResponse.error) {
                                               Fluttertoast.showToast(
@@ -195,9 +195,10 @@ class _ClinicTokenViewState extends State<ClinicTokenView> {
                                             physics: AlwaysScrollableScrollPhysics(),
                                             child: Container(
                                               width: double.infinity,
-                                              child: Wrap(children: [
+                                              child: Wrap(key: new Key(DateTime.now().toString()), children: [
                                                 for (int i = 0; i < clinic.clinicPendingTokenList.length; i++)
-                                                  TokenWidget(clinicToken: clinic.clinicPendingTokenList[i], index: i)
+                                                  TokenWidget(
+                                                    clinicToken: clinic.clinicPendingTokenList[i], index: i)
                                               ]),
                                             ),
                                           ),
