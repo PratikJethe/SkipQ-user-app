@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:skipq/config/app_config.dart';
 import 'package:skipq/providers/user_provider.dart';
 import 'package:skipq/resources/resources.dart';
@@ -104,7 +105,10 @@ showAlertDialog(BuildContext context) {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(R.color.primary),
         ),
-        onPressed: () async {},
+        onPressed: () async {
+          AppConfig _appConfig = getIt.get<AppConfig>();
+          LaunchReview.launch(androidAppId: _appConfig.androidAppId);
+        },
         child: Text(
           'Update',
           style: R.styles.fontColorWhite.merge(R.styles.fz16Fw500),
