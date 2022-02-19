@@ -34,13 +34,7 @@ class _UserDrawerState extends State<UserDrawer> {
             //     await userProvider.logout(context);
             //   },
             // ),
-            ListTile(
-              leading: Icon(Icons.privacy_tip_rounded),
-              title: Text('Privarcy Policy'),
-              onTap: () async {
-                await userProvider.logout(context);
-              },
-            ),
+            
             // ListTile(
             //   leading: Icon(Icons.question_answer),
             //   title: Text('Faq'),

@@ -73,12 +73,8 @@ class _AboutClinicState extends State<AboutClinic> {
               height: 10,
             ),
             Text('Pincode', style: R.styles.fz16Fw700.merge(R.styles.fontColorBluishGrey)),
-            Text('${clinic.address.pincode}', style: R.styles.fz18Fw700),
-            Text('City'),
-            Text('${clinic.address.city}', style: R.styles.fz18Fw700),
-            SizedBox(
-              height: 10,
-            ),
+            Text('${clinic.address.pincode??""}', style: R.styles.fz18Fw700),
+            
           ],
         ),
       ),
